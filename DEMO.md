@@ -1,5 +1,5 @@
 nat debian https://quaded.com/nat-%D0%B2-debian/
-
+dhcp debian 
 
 
 
@@ -17,5 +17,15 @@ nat debian https://quaded.com/nat-%D0%B2-debian/
 |HQ-SRV|ens18|192.168.0.2|/25 255.255.255.128|192.168.0.1|
 # FRR HSRP
 ```
-
+apt update
+apt install frr
 ```
+
+
+
+# DHCP SERVER
+```
+apt install isc-dhcp-server
+nano /etc/default/isc-dhcp-server
+```
+Указываю внешний интерфейс в сторону Интернета
