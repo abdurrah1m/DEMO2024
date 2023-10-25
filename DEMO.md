@@ -24,6 +24,18 @@ dhcp debian https://setiwik.ru/kak-nastroit-dhcp-server-v-debian-11/?ysclid=lo4m
 ```
 deb http://mirror.yandex.ru/debian/ stable main contrib non-free
 ```
+IP-адрес машин
+```
+nano /etc/network/interfaces
+```
+
+```
+auto ens19
+iface ens19 inet static
+address 10.10.201.100
+gateway 10.10.201.254
+netmask 255.255.255.0
+```
 # №1.2 FRR HSRP
 
 ```
