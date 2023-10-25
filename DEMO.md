@@ -19,7 +19,7 @@ dhcp debian https://setiwik.ru/kak-nastroit-dhcp-server-v-debian-11/?ysclid=lo4m
 ||ens19|192.168.0.166|/30 255.255.255.252|192.168.0.165|
 |BR-SRV|ens18|192.168.0.130|/27 255.255.255.224|192.168.0.129|
 |HQ-SRV|ens18|192.168.0.2|/25 255.255.255.128|192.168.0.1|
-# FRR HSRP
+# №1.2 FRR HSRP
 
 ```
 apt update
@@ -28,7 +28,7 @@ apt install frr
 
 
 
-# DHCP SERVER
+# №1.3 DHCP SERVER
 
 Установка DHCP `apt install isc-dhcp-server`  
 Конфиг `nano /etc/default/isc-dhcp-server`  
@@ -42,3 +42,8 @@ option routers 192.168.0.1;
 }
 ```
 Применяю изменения `systemctl restart isc-dhcp-server.service`
+
+
+# №1.5 iperf3
+HQ-R И ISP `apt install iperf3`  
+ISP `iperf3 -s -p 6868`
