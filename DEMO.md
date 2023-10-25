@@ -31,8 +31,7 @@ apt install frr
 # №1.3 DHCP SERVER
 
 Установка DHCP `apt install isc-dhcp-server`  
-Конфиг `nano /etc/default/isc-dhcp-server`  
-Указываю интерфейс, который в сторону Интернета `INTERFACESV4="ens19"`  
+Конфиг `nano /etc/default/isc-dhcp-server`, указываю интерфейс, который в сторону Интернета `INTERFACESV4="ens19"`  
 ```
 nano /etc/dhcp/dhcpd.conf
 subnet 192.168.0.0 netmask 255.255.255.0 {
@@ -46,4 +45,5 @@ option routers 192.168.0.1;
 
 # №1.5 iperf3
 HQ-R И ISP `apt install iperf3`  
-ISP `iperf3 -s -p 6868`
+ISP `iperf3 -s -p 6869`  
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/21d9e3c2-8d73-4b69-8615-5d2fb2a2b3b1)
