@@ -37,12 +37,32 @@ gateway 10.10.201.254
 netmask 255.255.255.0
 ```
 # №1.2 FRR HSRP
-
+Установка frr
 ```
 apt update
 apt install frr
 ```
-
+```
+nano /etc/frr/daemons
+```
+```
+ospfd=yes
+```
+```
+systemctl restart frr
+```
+`vtysh` вход в среду роутера
+```
+sh int br
+```
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/ca535ac1-459f-4acc-9fcb-83950433a26c)
+```
+router ospf
+```
+```
+net 192.168.0.1/25 area 0
+net 192.168.0.166/30 area 0
+```
 
 
 # №1.3 DHCP SERVER
