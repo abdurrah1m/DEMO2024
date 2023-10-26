@@ -65,7 +65,7 @@ netmask 255.255.255.0
 ```
 systemctl restart networking.service
 ```
-# №1.2 FRR HSRP
+# №1.2 FRR OSPF(ISP,HQ-R,BR-R)
 Установка frr
 ```
 apt update
