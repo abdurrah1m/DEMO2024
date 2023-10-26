@@ -45,6 +45,7 @@ apt install frr
 ```
 nano /etc/frr/daemons
 ```
+Вместо `ospfd=no на:`
 ```
 ospfd=yes
 ```
@@ -95,6 +96,23 @@ option routers 192.168.0.1;
 ```
 systemctl restart isc-dhcp-server.service
 ```
+# №1.4 Создание пользователей  
+Настроить
+|Учётная запись|Пароль|Примечание|
+|:-:|:-:|:-:|
+|Admin|P@ssw0rd|CLI, HQ-SRV|
+|Branch admin|P@ssw0rd|BR-SRV, BR-R|
+|Network admin|P@ssw0rd|HQ-R, BR-R, HQ-SRV|
+
+Пользователь `admin` на `HQ-SRV`
+```
+adduser admin
+P@ssw0rd
+```
+```
+usermod -aG sudo admin
+```
+Проверка ``
 
 # №1.5 iperf3
 HQ-R И ISP `apt install iperf3`  
