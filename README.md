@@ -1,5 +1,6 @@
 <!--
 <b> </b> - полужирный
+<i> </i> - курсив
 <blockquote>fhaufwhuhf</blockquote> - цитаты
 https://html5book.ru/html-tags/ HTML-ТЕГИ
 <code> </code> - МОНОШИРИННЫЙ ТЕКСТ
@@ -30,7 +31,8 @@ https://html5book.ru/html-tags/ HTML-ТЕГИ
 
 
 -->
-
+&#128386;  
+style="color:#FF0000">Красный текст заголовка  
 nat debian https://quaded.com/nat-%D0%B2-debian/  
 SSH https://routerus.com/how-to-setup-ssh-tunneling/  
 Включение ssh https://routerus.com/how-to-setup-ssh-tunneling/  
@@ -64,7 +66,6 @@ IP-адрес машин
 ```
 nano /etc/network/interfaces
 ```
-
 ```
 auto ens19
 iface ens19 inet static
