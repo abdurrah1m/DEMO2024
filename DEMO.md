@@ -94,6 +94,9 @@ net 192.168.0.1/25 area 0
 net 192.168.0.166/30 area 0
 ```
 
+<p align="center">
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/f4cf7421-7973-4ab9-b5c8-b06b8ff5f528)
+</p>
 
 # №1.3 DHCP SERVER
 
