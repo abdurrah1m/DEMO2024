@@ -87,11 +87,17 @@ sh int br
 ```
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/ca535ac1-459f-4acc-9fcb-83950433a26c)
 ```
+conf t
+```
+```
 router ospf
 ```
 ```
 net 192.168.0.1/25 area 0
 net 192.168.0.166/30 area 0
+```
+```
+sh ip ospf neighbor
 ```
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/f4cf7421-7973-4ab9-b5c8-b06b8ff5f528)
 
