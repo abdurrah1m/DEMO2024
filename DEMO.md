@@ -93,8 +93,8 @@ conf t
 router ospf
 ```
 ```
-net 192.168.0.1/25 area 0
-net 192.168.0.166/30 area 0
+net 192.168.0.0/25 area 0
+net 192.168.0.164/30 area 0
 ```
 ```
 sh ip ospf neighbor
