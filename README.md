@@ -1,8 +1,42 @@
+<!--
+<b> </b> - полужирный
+<blockquote>fhaufwhuhf</blockquote> - цитаты
+https://html5book.ru/html-tags/ HTML-ТЕГИ
+<code> </code> - МОНОШИРИННЫЙ ТЕКСТ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->
+
+<fieldset>
 nat debian https://quaded.com/nat-%D0%B2-debian/  
 SSH https://routerus.com/how-to-setup-ssh-tunneling/  
 Включение ssh https://routerus.com/how-to-setup-ssh-tunneling/  
 iptables https://www.dmosk.ru/instruktions.php?object=iptables-settings  
-
+</fieldset>
 
 # NANO
 <kbd>ALT</kbd> + <kbd>/</kbd> Перейти в конец файла  
