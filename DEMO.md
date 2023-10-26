@@ -1,4 +1,30 @@
-nat debian https://quaded.com/nat-%D0%B2-debian/  
+nat debian https://quaded.com/nat-%D0%B2-debian/
+# NAT на ISP, HQ-R,BR-R
+```
+apt install iptables
+```
+```
+nano /etc/sysctl.conf
+```
+```
+net.ipv4.ip_forward=1
+```
+```
+sysctl -p
+```
+```
+iptables -A POSTROUTING -t nat -j MASQUERADE
+```
+```
+nano /etc/network/if-pre-up.d/nat
+```
+```
+#!/bin/sh
+/sbin/iptables -A POSTROUTING -t nat -j MASQUERADE
+```
+```
+chmod +x /etc/network/if-pre-up.d/nat
+```
 dhcp debian https://setiwik.ru/kak-nastroit-dhcp-server-v-debian-11/?ysclid=lo4mpr8jcj791182994  
 # NANO
 <kbd>ALT</kbd> + <kbd>/</kbd> Перейти в конец файла  
@@ -35,6 +61,9 @@ iface ens19 inet static
 address 10.10.201.100
 gateway 10.10.201.254
 netmask 255.255.255.0
+```
+```
+systemctl restart networking.service
 ```
 # №1.2 FRR HSRP
 Установка frr
