@@ -1,31 +1,9 @@
-nat debian https://quaded.com/nat-%D0%B2-debian/
-# NAT на ISP, HQ-R,BR-R
-```
-apt install iptables
-```
-```
-nano /etc/sysctl.conf
-```
-```
-net.ipv4.ip_forward=1
-```
-```
-sysctl -p
-```
-```
-iptables -A POSTROUTING -t nat -j MASQUERADE
-```
-```
-nano /etc/network/if-pre-up.d/nat
-```
-```
-#!/bin/sh
-/sbin/iptables -A POSTROUTING -t nat -j MASQUERADE
-```
-```
-chmod +x /etc/network/if-pre-up.d/nat
-```
-dhcp debian https://setiwik.ru/kak-nastroit-dhcp-server-v-debian-11/?ysclid=lo4mpr8jcj791182994  
+nat debian https://quaded.com/nat-%D0%B2-debian/  
+SSH https://routerus.com/how-to-setup-ssh-tunneling/  
+Включение ssh https://routerus.com/how-to-setup-ssh-tunneling/  
+iptables https://www.dmosk.ru/instruktions.php?object=iptables-settings  
+
+
 # NANO
 <kbd>ALT</kbd> + <kbd>/</kbd> Перейти в конец файла  
 <kbd>CTRL</kbd> + <kbd>SHIFT</kbd> Скопировать  
@@ -65,6 +43,34 @@ netmask 255.255.255.0
 ```
 systemctl restart networking.service
 ```
+# NAT на ISP, HQ-R,BR-R
+```
+apt install iptables
+```
+```
+nano /etc/sysctl.conf
+```
+```
+net.ipv4.ip_forward=1
+```
+```
+sysctl -p
+```
+```
+iptables -A POSTROUTING -t nat -j MASQUERADE
+```
+```
+nano /etc/network/if-pre-up.d/nat
+```
+```
+#!/bin/sh
+/sbin/iptables -A POSTROUTING -t nat -j MASQUERADE
+```
+```
+chmod +x /etc/network/if-pre-up.d/nat
+```
+dhcp debian https://setiwik.ru/kak-nastroit-dhcp-server-v-debian-11/?ysclid=lo4mpr8jcj791182994  
+
 # №1.2 FRR OSPF(ISP,HQ-R,BR-R)
 Установка frr
 ```
@@ -101,10 +107,15 @@ sh ip ospf neighbor
 ```
 ![изображение](https://github.com/abdurrah1m/DEMO2024/assets/148451230/fad7b59e-76ac-4052-abd0-56df80e51617)
 
-С HQ-SRV ДО BR-SRV `ping 192.168.0.130`
+С HQ-SRV ДО BR-SRV `ping 192.168.0.130`  
+
+
 # №1.3 DHCP SERVER
 
 Установка DHCP
+```
+apt update
+```
 ```
 apt install isc-dhcp-server
 ```
