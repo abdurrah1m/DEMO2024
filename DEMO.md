@@ -101,6 +101,7 @@ sh ip ospf neighbor
 ```
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/f4cf7421-7973-4ab9-b5c8-b06b8ff5f528)
 
+С HQ-SRV ДО BR-SRV `ping 192.168.0.130`
 # №1.3 DHCP SERVER
 
 Установка DHCP
