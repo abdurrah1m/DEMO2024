@@ -99,7 +99,7 @@ net 192.168.0.164/30 area 0
 ```
 sh ip ospf neighbor
 ```
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/f4cf7421-7973-4ab9-b5c8-b06b8ff5f528)
+![изображение](https://github.com/abdurrah1m/DEMO2024/assets/148451230/fad7b59e-76ac-4052-abd0-56df80e51617)
 
 С HQ-SRV ДО BR-SRV `ping 192.168.0.130`
 # №1.3 DHCP SERVER
