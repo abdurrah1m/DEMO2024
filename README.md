@@ -30,10 +30,7 @@ https://html5book.ru/html-tags/ HTML-ТЕГИ
 
 
 
--->
-&#128386;  
-style="color:#FF0000">Красный текст заголовка  
-nat debian https://quaded.com/nat-%D0%B2-debian/  
+-->nat debian https://quaded.com/nat-%D0%B2-debian/  
 SSH https://routerus.com/how-to-setup-ssh-tunneling/  
 Включение ssh https://routerus.com/how-to-setup-ssh-tunneling/  
 iptables https://www.dmosk.ru/instruktions.php?object=iptables-settings  
