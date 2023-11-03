@@ -247,3 +247,15 @@ zone "128.168.192.work" {
     file "/opt/dns/back.128.168.192.db";
 };
 ```
+Первая зона `nano /opt/dns/demo.db`:  
+  
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/8ead1fc1-48bc-4051-8342-31ee053c40b7)  
+Вторая зона `nano /opt/dns/demo1.db`:  
+  
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/c40c8a9c-afca-4e7f-8841-97fc327e18b3)  
+
+Первая обратная зона ``:
+
+Вторая обратная зона ``:
+
+
