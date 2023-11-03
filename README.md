@@ -116,7 +116,7 @@ sh ip ospf neighbor
 С HQ-SRV ДО BR-SRV `ping 192.168.0.130`  
 
 
-# №1.3 DHCP SERVER
+# №1.3 DHCP SERVER на HQ-R
 
 Установка DHCP
 ```
@@ -204,4 +204,46 @@ log syslog informational
 no ipv6 forwarding
 service integrated-vtysh-config
 !
+```
+# №2 DNS-сервер на HQ-SRV
+На `HQ-SRV`:
+```
+apt install bind9
+mkdir /opt/dns
+cp /etc/bind/db.local /opt/dns/demo.db
+chown -R bind:bind /opt/dns
+```
+Добавляем строчку в `nano /etc/apparmor.d/usr.sbin.named`:
+```
+/opt/dns/** rw,
+```
+`nano /etc/bind/named.conf.options`:
+```
+allow-query { any; };
+```
+`nano /etc/bind/named.conf.default-zones`:
+```
+zone "hq.work" {
+    type master;
+    allow-transfer { any; };
+    file "/opt/dns/demo.db";
+};
+
+zone "branch.work" {
+    type master;
+    allow-transfer { any; };
+    file "/opt/dns/demo1.db";
+};
+
+zone "0.168.192.in-addr.arpa" {
+    type master;
+    allow-transfer { any; };
+    file "/opt/dns/back.0.168.192.db";
+};
+
+zone "128.168.192.work" {
+    type master;
+    allow-transfer { any; };
+    file "/opt/dns/back.128.168.192.db";
+};
 ```
