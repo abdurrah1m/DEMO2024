@@ -35,16 +35,69 @@ dns https://habr.com/ru/articles/713156/
 ```
 deb http://mirror.yandex.ru/debian/ stable main contrib non-free
 ```
-IP-адрес машин
+### IP-адрес машин
 ```
 nano /etc/network/interfaces
 ```
+HQ-SRV:
 ```
+auto ens18
+iface ens18 inet static
+address 192.168.0.20
+gateway 192.168.0.1
+netmask 255.255.255.128
+```
+BR-SRV:
+```
+auto ens18
+iface ens18 inet static
+address 192.168.0.140
+gateway 192.168.0.129
+netmask 255.255.255.192
+```
+HQ-R:
+```
+auto ens18
+iface ens18 inet static
+address 192.168.0.1
+netmask 255.255.255.128
+
 auto ens19
 iface ens19 inet static
+address 192.168.0.166
+gateway 192.168.0.165
+netmask 255.255.255.252
+```
+BR-R:
+```
+auto ens18
+iface ens18 inet static
+address 192.168.0.129
+netmask 255.255.255.192
+
+auto ens19
+iface ens19 inet static
+address 192.168.0.162
+gateway 192.168.0.161
+netmask 255.255.255.252
+```
+ISP:
+```
+auto ens18
+iface ens18 inet static
 address 10.10.201.100
 gateway 10.10.201.254
 netmask 255.255.255.0
+
+auto ens19
+iface ens19 inet static
+address 192.168.0.165
+netmask 255.255.255.252
+
+auto ens20
+iface ens20 inet static
+address 192.168.0.161
+netmask 255.255.255.252
 ```
 ```
 systemctl restart networking.service
