@@ -259,6 +259,7 @@ service integrated-vtysh-config
 !
 ```
 # №2.1 DNS-сервер на HQ-SRV
+https://timeweb.cloud/tutorials/ubuntu/nastrojka-dns-servera-bind  
 На `HQ-SRV`:
 ```
 apt install bind9
