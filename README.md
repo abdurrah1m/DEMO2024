@@ -17,7 +17,7 @@ dns https://habr.com/ru/articles/713156/
 <kbd>CTRL</kbd> + <kbd>U</kbd> Вставить  
 <kbd>CTRL</kbd> + <kbd>K</kbd> Вырезать  
 
-# Сеть на подсети
+# №1 Сеть на подсети
 
 |Имя устройства |Интерфейс |Ip-адрес |Маска/Префикс |Шлюз |
 |:-:|:-:|:-:|:-:|:-:|
@@ -205,7 +205,7 @@ no ipv6 forwarding
 service integrated-vtysh-config
 !
 ```
-# №2 DNS-сервер на HQ-SRV
+# №2.1 DNS-сервер на HQ-SRV
 На `HQ-SRV`:
 ```
 apt install bind9
