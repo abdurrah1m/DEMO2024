@@ -10,6 +10,7 @@ SSH https://routerus.com/how-to-setup-ssh-tunneling/
 Включение ssh https://routerus.com/how-to-setup-ssh-tunneling/  
 iptables https://www.dmosk.ru/instruktions.php?object=iptables-settings  
 dns https://habr.com/ru/articles/713156/  
+dns bind https://timeweb.cloud/tutorials/ubuntu/nastrojka-dns-servera-bind  
 
 # NANO
 <kbd>ALT</kbd> + <kbd>/</kbd> Перейти в конец файла  
@@ -259,7 +260,17 @@ service integrated-vtysh-config
 !
 ```
 # №2.1 DNS-сервер на HQ-SRV
-https://timeweb.cloud/tutorials/ubuntu/nastrojka-dns-servera-bind  
+|Имя|Тип записи|Адрес|
+|:-:|:-:|:-:|
+|hq-r.hq.work|A, PTR|192.168.0.1|
+|hq-srv.hq.work|A, PTR|192.168.0.20|
+
+Зона branch.work
+|Имя|Тип записи|Адрес|
+|:-:|:-:|:-:|
+|br-r.branch.work|A, PTR|192.168.0.129|
+|br-srv.branch.work|A|192.168.0.140|
+
 На `HQ-SRV`:
 ```
 apt install bind9
