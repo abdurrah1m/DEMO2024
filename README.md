@@ -296,6 +296,10 @@ listen-on {    192.168.0.166/32;
 #прослушивать с ""
 };
 ```
+Проверка настроек:
+```
+named-checkconf
+```
 `nano /etc/bind/named.conf.default-zones`:
 ```
 zone "hq.work" {
@@ -318,17 +322,27 @@ zone "0.168.192.in-addr.arpa.zone" {
 ```
 Первая зона `nano /opt/dns/demo.db`:  
   
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/7c92719c-631d-41aa-b334-d4eb0a12bde4)
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/7c92719c-631d-41aa-b334-d4eb0a12bde4)  
+Корректность зоны:
+```
+named-checkzone hq.work /opt/dns/demo.db
+```
 
 Вторая зона `nano /opt/dns/demob.db`:  
   
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/84e554ee-be10-435f-af96-00b63562fee5)
-
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/84e554ee-be10-435f-af96-00b63562fee5)  
+Корректность зоны:
+```
+named-checkzone branch.work /opt/dns/demob.db
+```
 
 Обратная зона `/opt/dns/0.168.192.in-addr.arpa.zone`:  
 
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/5a36f78c-ecad-4ad6-b908-a1f11f9cd9b6)
-
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/5a36f78c-ecad-4ad6-b908-a1f11f9cd9b6)  
+Корректность зоны:
+```
+named-checkzone 0.168.192.in-addr.arpa.zone /opt/dns/0.168.192.in-addr.arpa.zone
+```
 Перезагружаем:
 ```
 service named restart
