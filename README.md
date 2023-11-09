@@ -274,6 +274,16 @@ chown -R bind:bind /opt/dns
 `nano /etc/bind/named.conf.options`:
 ```
 allow-query { any; };
+#принимать запросы от всех
+listen-on-v6 port 53 { none; };
+#не слушать ipv6
+forwarders { 8.8.8.8; };
+#обработка dns-запросов следующим сервером после HQ-SRV
+listen-on {    192.168.0.166/32;
+192.168.0.20;
+127.0.0.0/8; };
+#прослушивать с ""
+};
 ```
 `nano /etc/bind/named.conf.default-zones`:
 ```
@@ -286,30 +296,38 @@ zone "hq.work" {
 zone "branch.work" {
     type master;
     allow-transfer { any; };
-    file "/opt/dns/demo1.db";
+    file "/opt/dns/demob.db";
 };
 
-zone "0.168.192.in-addr.arpa" {
+zone "0.168.192.in-addr.arpa.zone" {
     type master;
     allow-transfer { any; };
-    file "/opt/dns/back.0.168.192.db";
-};
-
-zone "128.168.192.work" {
-    type master;
-    allow-transfer { any; };
-    file "/opt/dns/back.128.168.192.db";
+    file "/opt/dns/0.168.192.in-addr.arpa.zone";
 };
 ```
 Первая зона `nano /opt/dns/demo.db`:  
   
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/8ead1fc1-48bc-4051-8342-31ee053c40b7)  
-Вторая зона `nano /opt/dns/demo1.db`:  
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/7c92719c-631d-41aa-b334-d4eb0a12bde4)
+
+Вторая зона `nano /opt/dns/demob.db`:  
   
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/c40c8a9c-afca-4e7f-8841-97fc327e18b3)  
-
-Первая обратная зона ``:
-
-Вторая обратная зона ``:
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/84e554ee-be10-435f-af96-00b63562fee5)
 
 
+Обратная зона `/opt/dns/0.168.192.in-addr.arpa.zone`:  
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/5a36f78c-ecad-4ad6-b908-a1f11f9cd9b6)
+
+Перезагружаем:
+```
+service named restart
+service apparmor restart
+```
+
+Проверка с `HQ-SRV`:  
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/93d3d991-0ed6-481b-9baa-05808c0af368)
+
+Проверка с `BR-SRV`:  
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/7232378f-6bf5-478c-b3c3-97851950bafd)
