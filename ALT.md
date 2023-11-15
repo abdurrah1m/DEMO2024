@@ -7,10 +7,7 @@ ip a
 `ens18`  
 ip  
 ```
-nano /etc/net/ifaces/ens18/ipv4address
-```
-```
-192.168.0.40/24
+echo 192.168.0.40/24 > /etc/net/ifaces/ens18/ipv4address
 ```
 gateway  
 ```
