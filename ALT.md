@@ -201,3 +201,46 @@ iperf3 -c 192.168.0.161 -f M
 [ 5] 1.00-2.00 sec 338 MBytes 338 MBytes/sec    0 676 KBytes
 [ 5] 3.00-4.00 sec 341 MBytes 341 MBytes/sec    0 749 KBytes
 ```
+# №1.6 UrBackup BR-R,HQ-R
+UrBackup - система резервного копирования типа "клиент-сервер"
+ISP как сервер:
+```
+apt-get -y install urbackup-server
+```
+```
+mkdir -p /mnt/backups
+```
+Каталог принадлежит пользователю urbackup:
+```
+chown -R urbackup:urbackup /mnt/backups
+```
+```
+systemctl enable --now urbackup-server
+```
+> urbackup прослушивает порты 55413 и 55414
+
+Есть веб-интерфейс `<IP-сервера:55414>`
+Установка на клиентах BR-R,HQ-R:
+```
+apt-get -y install urbackup-client
+```
+```
+systemctl enable --now urbackup-client
+```
+Клиенты
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/e5df3a40-996b-4d0f-9559-90757d9a7d4b)  
+
+В настройках меняются:
+* Количество и интервал инкрементальных файловых бэкапов
+* Количество и интервал полных файловых бэкапов
+* Количество и интервал полных образов
+* Количество и интервал инкрементальных образов
+* Тома и каталоги  
+Выбираем каталог `/etc/frr` и сохраняем
+-------------------------------------
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/1ead826e-782a-4693-a0ce-c81a51102ea9)  
+
+Теперь можно делать бэкапы
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/dc59516b-0280-4012-a19e-7b2e8a2c2ab5)
