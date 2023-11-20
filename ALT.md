@@ -7,7 +7,7 @@ ip a
 `ens18`  
 ip  
 ```
-echo 192.168.0.40/24 > /etc/net/ifaces/ens18/ipv4address
+echo 192.168.0.40/25 > /etc/net/ifaces/ens18/ipv4address
 ```
 gateway  
 ```
@@ -39,7 +39,7 @@ service network restart
 systemctl restart network.service
 ```
 
-NAT ISP:
+NAT ISP,HQ-R,BR-R:
 ```
 iptables -A POSTROUTING -t nat -j MASQUERADE
 ```
@@ -55,4 +55,42 @@ nano /etc/net/scripts/nat
 ```
 ```
 chmod +x /etc/net/scripts/nat
+```
+FRR HQ-R,BR-R,ISP
+```
+apt-get -y install frr
+```
+```
+nano /etc/frr/daemons
+```
+```
+ospfd=yes
+```
+```
+systemctl restart frr
+```
+```
+vtysh
+```
+```
+sh in br
+```
+|Interface|Status|VRF|Adresses|
+|:-:|:-:|:-:|:-:|
+|ens18|up|default|192.168.0.162/30|
+|ens19|up|default|192.168.0.129/27|
+|lo|up|default||
+```
+router ospf
+```
+```
+net 192.168.0.160/30 area 0
+net 192.168.0.128/27 area 0
+```
+```
+do sh ip ospf neighbor
+```
+СОХРАНИТЬ КОНФИГИ:
+```
+do w
 ```
