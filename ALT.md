@@ -1,4 +1,4 @@
-# Настройка статическго ip
+# №1 Сеть на подсети
 ## HQ-SRV
 Смотрим название адаптера
 ```
@@ -39,7 +39,7 @@ service network restart
 systemctl restart network.service
 ```
 
-NAT ISP,HQ-R,BR-R:
+# NAT ISP,HQ-R,BR-R:
 ```
 iptables -A POSTROUTING -t nat -j MASQUERADE
 ```
@@ -56,7 +56,7 @@ nano /etc/net/scripts/nat
 ```
 chmod +x /etc/net/scripts/nat
 ```
-FRR HQ-R,BR-R,ISP
+# №1.2 FRR HQ-R,BR-R,ISP
 ```
 apt-get -y install frr
 ```
@@ -94,7 +94,7 @@ do sh ip ospf neighbor
 ```
 do w
 ```
-DHCP HQ-R
+# № 1.3 DHCP HQ-R
 ```
 apt-get -y install dhcp-server
 ```
@@ -153,7 +153,7 @@ service network restart
 ens18:
     inet 192.168.0.38/25 brd 192.168.0.127
 ```
-USERS
+# №1.4 Создание пользователей
 Настроить
 |Учётная запись|Пароль|Примечание|
 |:-:|:-:|:-:|
@@ -179,7 +179,7 @@ nano /etc/passwd
 ```
 admin:x:0:501::/home/admin:/bin/bash
 ```
-IPERF3 HQ-R ISP
+# №1.5 IPERF3 HQ-R ISP
 ```
 apt-get -y install iperf3
 ```
