@@ -19,6 +19,16 @@ nano /etc/net/ifaces/ens18/options
 ```
 ```
 BOOTPROTO=static
+TYPE=eth
+NM_CONTROLLED=yes
+DISABLED=no
+CONFIG_IPV4=yes
+```
+```
+nano /etc/resolv.conf
+```
+```
+nameserver 8.8.8.8
 ```
 Перезагрузка:
 ```
