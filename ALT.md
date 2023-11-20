@@ -94,3 +94,28 @@ do sh ip ospf neighbor
 ```
 do w
 ```
+DHCP HQ-R
+```
+apt-get -y install dhcp-server
+```
+`/etc/sysconfig/dhcpd`, указываю интерфейс внутренней сети:
+```
+DHCPDARGS=ens19
+```
+```
+cp /etc/dhcp/dhcpd.conf.sample /etc/dhcp/dhcpd.conf
+```
+`/etc/dhcp/dhcpd.conf` параметры раздачи:
+```
+ddns-update-style-none;
+
+subnet 192.168.0.0 netmask 255.255.255.128 {
+        option routers                  192.168.0.1;
+        option subnet-mask              255.255.255.128;
+        option domain-name-servers      8.8.8.8, 8.8.4.4;
+
+        range dynamic-bootp 192.168.0.20 192.168.0.50;
+        default-lease-time 21600;
+        max-lease-time 43200;
+}
+```
