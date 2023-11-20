@@ -153,3 +153,51 @@ service network restart
 ens18:
     inet 192.168.0.38/25 brd 192.168.0.127
 ```
+USERS
+Настроить
+|Учётная запись|Пароль|Примечание|
+|:-:|:-:|:-:|
+|Admin|P@ssw0rd|CLI, HQ-SRV|
+|Branch admin|P@ssw0rd|BR-SRV, BR-R|
+|Network admin|P@ssw0rd|HQ-R, BR-R, HQ-SRV|
+
+Пользователь `admin` на `HQ-SRV`
+```
+adduser admin
+```
+```
+usermod -aG root admin
+```
+```
+passwd admin
+P@ssw0rd
+P@ssw0rd
+```
+```
+nano /etc/passwd
+```
+```
+admin:x:0:501::/home/admin:/bin/bash
+```
+IPERF3 HQ-R ISP
+```
+apt-get -y install iperf3
+```
+ISP как сервер:
+> если надо открыть порт
+>```
+>iptables -A INPUT -p tcp --dport 5201 -j ACCEPT
+>```
+```
+iperf3 -s
+```
+HQ-R:
+```
+iperf3 -c 192.168.0.161 -f M
+```
+```
+[ID] Interval      Transfer   Bitrate        Retr Cwnd
+[ 5] 0.00-1.00 sec 345 MBytes 344 MBytes/sec    0 538 KBytes
+[ 5] 1.00-2.00 sec 338 MBytes 338 MBytes/sec    0 676 KBytes
+[ 5] 3.00-4.00 sec 341 MBytes 341 MBytes/sec    0 749 KBytes
+```
