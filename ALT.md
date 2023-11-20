@@ -56,6 +56,9 @@ nano /etc/net/scripts/nat
 ```
 chmod +x /etc/net/scripts/nat
 ```
+```
+service iptables enable
+```
 # №1.2 FRR HQ-R,BR-R,ISP
 ```
 apt-get -y install frr
