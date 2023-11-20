@@ -247,3 +247,23 @@ systemctl enable --now urbackup-client
 Теперь можно делать бэкапы
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/dc59516b-0280-4012-a19e-7b2e8a2c2ab5)
+# №1.7 SSH
+HQ-SRV:
+```
+apt-get -y install openssh-server
+```
+```
+systemctl enable --now sshd
+```
+```
+nano /etc/openssh/sshd_config
+```
+```
+Port 2222
+PermitRootLogin no
+PasswordAuthentication yes
+```
+Подключение
+```
+ssh student@192.168.0.40 -p 2222
+```
