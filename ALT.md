@@ -119,3 +119,37 @@ subnet 192.168.0.0 netmask 255.255.255.128 {
         max-lease-time 43200;
 }
 ```
+```
+systemctl restart dhcpd
+```
+```
+systemctl status dhcpd.service
+```
+```
+chkconfig dhcpd on
+service dhcpd start
+```
+HQ-SRV
+```
+nano /etc/net/ifaces/ens18/ipv4address
+```
+```
+#192.168.0.40
+```
+```
+nano /etc/net/ifaces/ens18/options
+```
+```
+BOOTROTO=dhcp
+TYPE=eth
+NM_CONTROLLED=yes
+DISABLED=no
+CONFIG_IPV4=yes
+```
+```
+service network restart
+```
+```
+ens18:
+    inet 192.168.0.38/25 brd 192.168.0.127
+```
