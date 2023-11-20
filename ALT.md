@@ -11,10 +11,7 @@ echo 192.168.0.40/24 > /etc/net/ifaces/ens18/ipv4address
 ```
 gateway  
 ```
-nano /etc/net/ifaces/ens18/ipv4route
-```
-```
-192.168.0.1
+echo default via 192.168.0.1 > /etc/net/ifaces/ens18/ipv4route
 ```
 Параметр BOOTPROTO отвечает за способ получения сетевой картой адреса, `static`  
 ```
@@ -25,5 +22,27 @@ BOOTPROTO=static
 ```
 Перезагрузка:
 ```
-reboot
+service network restart
+```
+или
+```
+systemctl restart network.service
+```
+
+NAT ISP:
+```
+iptables -A POSTROUTING -t nat -j MASQUERADE
+```
+```
+iptables-save
+```
+```
+nano /etc/net/scripts/nat
+```
+```
+#!/bin/sh
+/sbin/iptables -A POSTROUTING -t nat -j MASQUERADE
+```
+```
+chmod +x /etc/net/scripts/nat
 ```
