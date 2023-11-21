@@ -268,6 +268,7 @@ PasswordAuthentication yes
 ssh student@192.168.0.40 -p 2222
 ```
 # №2 DNS HQ-SRV
+https://sysahelper.gitbook.io/sysahelper/main/linux_admin/main/altdnsserversetup  
 Установка:
 ```
 apt-get update && apt-get install bind -y
