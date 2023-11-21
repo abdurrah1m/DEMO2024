@@ -267,3 +267,55 @@ PasswordAuthentication yes
 ```
 ssh student@192.168.0.40 -p 2222
 ```
+# №2 DNS HQ-SRV
+Установка:
+```
+apt-get update && apt-get install bind -y
+```
+```
+nano /var/lib/bind/etc/options.conf
+```
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/96dc68eb-413b-4438-89e4-f377ae9dc9bd)
+
+```
+systemctl enable --now bind
+```
+```
+nano /etc/resolv.conf
+```
+```
+search hq.work
+search branch.work
+nameserver 127.0.0.1
+```
+```
+nano /var/lib/bind/etc/local.conf
+```
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/42494756-a69b-4d00-adb6-2b80b4ac5cc7)
+
+```
+cp /var/lib/bind/etc/zone/{localdomain,hq.db}
+```
+```
+chown named. /var/lib/bind/etc/zone/champ.db
+chmod 600 /var/lib/bind/etc/zone/champ.db
+```
+```
+nano /var/lib/bind/etc/zone/hq.db
+```
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/6f3af999-1b05-47b1-a522-9fb760c0eabe)
+
+Проверка:
+```
+named-checkconf -z
+```
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/a2172c7f-1ba4-4720-9733-c23349ed5f30)
+
+```
+systemctl restart bind
+```
+```
+nslookup hq-r.hq.work
+```
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/ab4b1341-ec1c-46cf-ae02-a261528c8f53)
+
