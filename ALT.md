@@ -306,11 +306,22 @@ nano /var/lib/bind/etc/zone/hq.db
 ```
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/6f3af999-1b05-47b1-a522-9fb760c0eabe)
 
+```
+nano /var/lib/bind/etc/zone/branch.db
+```
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/5d60448f-0bc0-4e64-b8a9-615173d88fa0)
+
+```
+nano /var/lib/bind/etc/zone/0.db
+```
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/9e079573-5137-41cc-a6d9-65b57e1acbd2)
+
 Проверка:
 ```
 named-checkconf -z
 ```
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/a2172c7f-1ba4-4720-9733-c23349ed5f30)
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/4d99eca1-66d6-46f6-a156-d43dd1f0f1ca)
+
 
 ```
 systemctl restart bind
@@ -320,3 +331,4 @@ nslookup hq-r.hq.work
 ```
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/ab4b1341-ec1c-46cf-ae02-a261528c8f53)
 
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/c0f0a401-2bbf-430a-8b4c-ea683fd20048)
