@@ -204,9 +204,24 @@ iperf3 -c 192.168.0.161 -f M
 [ 5] 1.00-2.00 sec 338 MBytes 338 MBytes/sec    0 676 KBytes
 [ 5] 3.00-4.00 sec 341 MBytes 341 MBytes/sec    0 749 KBytes
 ```
+# №1.6 crontab BR-R,HQ-R
+Заход в планировщик заданий:
+```
+EDITOR=nano crontab -e
+```
+минута | час | день | месяц | день недели | "команда, например `reboot`":
+```
+9 15 * * * cp /etc/frr/frr.conf /etc/networkbackup
+```
+```
+ls /etc/networkbackup
+```
+```
+frr.conf
+```
 # №1.6 UrBackup BR-R,HQ-R
-UrBackup - система резервного копирования типа "клиент-сервер"
-ISP как сервер:
+UrBackup - система резервного копирования типа "клиент-сервер"  
+ISP выступает в роли сервера:
 ```
 apt-get -y install urbackup-server
 ```
