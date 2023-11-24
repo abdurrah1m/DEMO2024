@@ -285,6 +285,15 @@ PasswordAuthentication yes
 ```
 ssh student@192.168.0.40 -p 2222
 ```
+# №1.8 SSH
+HQ-SRV:
+```
+nano /etc/openssh/sshd_config
+```
+Выбор пользователей
+```
+AllowUsers student@192.168.0.1 student@192.168.0.140 student@192.168.0.129 student@10.10.201.174
+```
 # №2 DNS HQ-SRV
 https://sysahelper.gitbook.io/sysahelper/main/linux_admin/main/altdnsserversetup  
 Установка:
