@@ -64,6 +64,9 @@ service iptables enable
 apt-get -y install frr
 ```
 ```
+systemctl enable --now frr
+```
+```
 nano /etc/frr/daemons
 ```
 ```
