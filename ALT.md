@@ -2,18 +2,20 @@
 ## HQ-SRV
 Смотрим название адаптера
 ```
-ip a
+ip -с a
 ```
+> -c выводит информацию с цветом
+
 `ens18`  
-ip  
+Настройка ip-адреса:  
 ```
 echo 192.168.0.40/25 > /etc/net/ifaces/ens18/ipv4address
 ```
-gateway  
+Настройка шлюза по умолчанию: 
 ```
 echo default via 192.168.0.1 > /etc/net/ifaces/ens18/ipv4route
 ```
-Параметр BOOTPROTO отвечает за способ получения сетевой картой адреса, `static`  
+Параметры интерфейса
 ```
 nano /etc/net/ifaces/ens18/options
 ```
@@ -25,12 +27,9 @@ DISABLED=no
 CONFIG_IPV4=yes
 ```
 ```
-nano /etc/resolv.conf
+echo nameserver 8.8.8.8 > /etc/resolv.conf
 ```
-```
-nameserver 8.8.8.8
-```
-Перезагрузка:
+Перезагрузка адаптера:
 ```
 service network restart
 ```
@@ -38,7 +37,7 @@ service network restart
 ```
 systemctl restart network.service
 ```
-# NAT ISP,HQ-R,BR-R:
+# NAT с помощью firewalld ISP,HQ-R,BR-R:
 Настройки интерфейсов должны быть такими:
 ```
 NM_CONTROLLED=no
@@ -68,7 +67,7 @@ firewall-cmd --permanent --zone=public --add-masquerade
 ```
 firewall-cmd --reload
 ```
-# NAT ISP,HQ-R,BR-R:
+# NAT 2 способ ISP,HQ-R,BR-R:
 ```
 iptables -A POSTROUTING -t nat -j MASQUERADE
 ```
