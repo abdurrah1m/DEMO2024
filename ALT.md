@@ -38,7 +38,36 @@ service network restart
 ```
 systemctl restart network.service
 ```
-
+# NAT ISP,HQ-R,BR-R:
+Настройки интерфейсов должны быть такими:
+```
+NM_CONTROLLED=no
+DISABLED=no
+```
+Установка firewalld:
+```
+apt-get -y install firewalld
+```
+Автозагрузка:
+```
+systemctl enable --now firewalld
+```
+Правила к исходящим пакетам:
+```
+firewall-cmd --permanent --zone=public --add-interface=ens33
+```
+Правила к входящим пакетам:
+```
+firewall-cmd --permanent --zone=trusted --add-interface=ens34
+```
+Включение NAT:
+```
+firewall-cmd --permanent --zone=public --add-masquerade
+```
+Сохранение правил:
+```
+firewall-cmd --reload
+```
 # NAT ISP,HQ-R,BR-R:
 ```
 iptables -A POSTROUTING -t nat -j MASQUERADE
