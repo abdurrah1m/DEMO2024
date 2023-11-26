@@ -1,6 +1,6 @@
 # №1 Сеть на подсети
 ## HQ-SRV
-Смотрим название адаптера
+Смотрим название адаптера:
 ```
 ip -с a
 ```
@@ -15,7 +15,7 @@ echo 192.168.0.40/25 > /etc/net/ifaces/ens18/ipv4address
 ```
 echo default via 192.168.0.1 > /etc/net/ifaces/ens18/ipv4route
 ```
-Параметры интерфейса
+Параметры интерфейса:
 ```
 nano /etc/net/ifaces/ens18/options
 ```
@@ -26,6 +26,7 @@ NM_CONTROLLED=yes
 DISABLED=no
 CONFIG_IPV4=yes
 ```
+DNS-сервер:
 ```
 echo nameserver 8.8.8.8 > /etc/resolv.conf
 ```
@@ -87,16 +88,20 @@ nano /etc/net/scripts/nat
 ```
 chmod +x /etc/net/scripts/nat
 ```
+Автозагрузка:
 ```
 service iptables enable
 ```
 # №1.2 FRR HQ-R,BR-R,ISP
+Установка пакета:
 ```
 apt-get -y install frr
 ```
+Автозагрузка:
 ```
 systemctl enable --now frr
 ```
+Включение демона службы ospf:
 ```
 nano /etc/frr/daemons
 ```
@@ -106,9 +111,11 @@ ospfd=yes
 ```
 systemctl restart frr
 ```
+Вход в среду роутера:
 ```
 vtysh
 ```
+Показать интерфейсы:
 ```
 sh in br
 ```
@@ -117,13 +124,16 @@ sh in br
 |ens18|up|default|192.168.0.162/30|
 |ens19|up|default|192.168.0.129/27|
 |lo|up|default||
+Активировать ospf:
 ```
 router ospf
 ```
+Вводим СЕТИ:
 ```
 net 192.168.0.160/30 area 0
 net 192.168.0.128/27 area 0
 ```
+Показать соседей:
 ```
 do sh ip ospf neighbor
 ```
@@ -132,6 +142,7 @@ do sh ip ospf neighbor
 do w
 ```
 # № 1.3 DHCP HQ-R
+Установка пакета:
 ```
 apt-get -y install dhcp-server
 ```
@@ -139,6 +150,7 @@ apt-get -y install dhcp-server
 ```
 DHCPDARGS=ens19
 ```
+Копирую образец:
 ```
 cp /etc/dhcp/dhcpd.conf.sample /etc/dhcp/dhcpd.conf
 ```
@@ -162,11 +174,12 @@ systemctl restart dhcpd
 ```
 systemctl status dhcpd.service
 ```
+Автозагрузка:
 ```
 chkconfig dhcpd on
 service dhcpd start
 ```
-HQ-SRV
+HQ-SRV (клиент):
 ```
 nano /etc/net/ifaces/ens18/ipv4address
 ```
