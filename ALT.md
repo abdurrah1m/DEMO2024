@@ -322,6 +322,35 @@ nano /etc/openssh/sshd_config
 ```
 AllowUsers student@192.168.0.1 student@192.168.0.140 student@192.168.0.129 student@10.10.201.174
 ```
+
+# Сервер точного времени HQ-R
+Переставить часовой пояс на вех машинах:
+```
+timedatectl set-timezone Asia/Yekaterinburg
+```
+Установить `chrony` на всех устройствах:
+```
+apt-get install -y chrony
+```
+Автозагрузка:
+```
+systemctl enable --now chronyd
+```
+Конфигурация `HQ-R`:
+```
+nano /etc/chrony.conf
+```
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/7cc4f29b-f180-40d9-bdde-fe031658417c)
+
+Конфигурация на клиентах (в зависимости от сети):
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/d0115300-bf60-47ed-ad7d-3f3beabd438f)
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/06ea5432-dcef-43d8-b20e-a14afb36c0d3)
+
+Просмотр клиентов:
+```
+chronyc clients
+```
 # №2 DNS HQ-SRV
 https://sysahelper.gitbook.io/sysahelper/main/linux_admin/main/altdnsserversetup  
 Установка:
