@@ -124,6 +124,7 @@ sh in br
 |ens18|up|default|192.168.0.162/30|
 |ens19|up|default|192.168.0.129/27|
 |lo|up|default||
+
 Активировать ospf:
 ```
 router ospf
