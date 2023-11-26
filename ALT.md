@@ -68,12 +68,15 @@ firewall-cmd --permanent --zone=public --add-masquerade
 firewall-cmd --reload
 ```
 # NAT 2 способ ISP,HQ-R,BR-R:
+Правило:
 ```
 iptables -A POSTROUTING -t nat -j MASQUERADE
 ```
+Применение правил, работает только до перезагрузки:
 ```
 iptables-save
 ```
+Сохранение правил:
 ```
 nano /etc/net/scripts/nat
 ```
