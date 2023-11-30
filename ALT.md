@@ -1,3 +1,4 @@
+https://sysahelper.gitbook.io/sysahelper/main/complex_works/main/demo2024  
 # №1 Сеть на подсети
 ## HQ-SRV
 Смотрим название адаптера:
