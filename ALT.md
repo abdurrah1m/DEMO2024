@@ -438,3 +438,16 @@ nslookup hq-r.hq.work
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/ab4b1341-ec1c-46cf-ae02-a261528c8f53)
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/c0f0a401-2bbf-430a-8b4c-ea683fd20048)
+
+
+# №2.1 SambaDC admc
+Перед установкой отключить конфликтующие службы:
+```
+systemctl stop krb5kdc
+systemctl disable krb5kdc
+systemctl status krb5kdc
+```
+Установка:
+```
+apt-get install -y task-samba-dc admc
+```
