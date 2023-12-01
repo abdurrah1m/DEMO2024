@@ -31,6 +31,10 @@ DNS-сервер:
 ```
 echo nameserver 8.8.8.8 > /etc/resolv.conf
 ```
+Создание нового интерфейса (предположительно свериться в ip a):
+```
+cp /etc/net/ifaces/ens18 /etc/net/ifaces/ens19
+```
 Перезагрузка адаптера:
 ```
 service network restart
