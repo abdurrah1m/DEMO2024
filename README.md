@@ -1,5 +1,7 @@
 https://sysahelper.gitbook.io/sysahelper/main/complex_works/main/demo2024  
-# №1 Сеть на подсети
+# №1.1 Сеть на подсети
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/3412d3b9-7b67-4fc1-8cc9-9b0ac66ff7dc)
+
 ## HQ-SRV
 Смотрим название адаптера:
 ```
