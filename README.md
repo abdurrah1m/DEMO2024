@@ -149,6 +149,9 @@ do sh ip ospf neighbor
 ```
 do w
 ```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/a39631c1-a683-47d2-a63a-4bbb93d7556a)
+
 # № 1.3 DHCP HQ-R
 Установка пакета:
 ```
