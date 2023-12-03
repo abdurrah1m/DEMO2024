@@ -446,7 +446,7 @@ nslookup hq-r.hq.work
 
 
 # №2.1 SambaDC admc
-Перед установкой отключить конфликтующие службы:
+Перед установкой отключить конфликтующие службы krb5kdc, slapd, bind:
 ```
 systemctl stop krb5kdc
 systemctl disable krb5kdc
@@ -456,3 +456,38 @@ systemctl status krb5kdc
 ```
 apt-get install -y task-samba-dc admc
 ```
+Имя узла и домена
+```
+hostnamectl set-hostname hq-srv.hq.work; exec bash
+```
+```
+domainname hq.work
+```
+Для корректного распознования dns-запросов, `/etc/resolv.conf`:
+```
+nameserver 127.0.0.1
+```
+```
+resolvconf -u
+```
+Начальное состояние samba:
+```
+rm -f /etc/samba/smb.conf
+```
+```
+rm -rf /var/lib/samba
+```
+```
+rm -rf /var/cache/samba
+```
+```
+mkdir -p /var/lib/samba/sysvol
+```
+Через веб-браузер входим в среду настройки домена:
+```
+192.168.0.40:8080
+```
+Вот такие настройки
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/1e8abedf-b249-4cea-b2a6-8549c6d5d0d1)
+
