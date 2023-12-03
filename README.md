@@ -491,3 +491,16 @@ mkdir -p /var/lib/samba/sysvol
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/1e8abedf-b249-4cea-b2a6-8549c6d5d0d1)
 
+ОБЯЗАТЕЛЬНО ПЕРЕЗАГРУЗИТЬ МАШИНУ  
+При входе получаем билет
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/e6dd4177-c23e-4d73-a79c-09e147c5b425)
+
+Просмотр полученного билета
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/65372d90-bd96-4eff-8f97-cfc0112b6e68)
+
+Настройка kerberos:
+```
+cp /var/lib/samba/private/krb5.conf /etc/krb5.conf
+```
