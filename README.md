@@ -504,3 +504,19 @@ mkdir -p /var/lib/samba/sysvol
 ```
 cp /var/lib/samba/private/krb5.conf /etc/krb5.conf
 ```
+
+## Клиенты домена
+### CLI
+Указываем сервер в `/etc/resolv.conf`:
+```
+nameserver 192.168.0.40
+```
+Установка active directory:
+```
+apt-get install task-auth-ad-sssd
+```
+Аутентификация
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/23067dd0-8f19-4530-98cf-7df64a9feadf)
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/e7686094-4d5f-4885-9917-754df2a1f130)
