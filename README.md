@@ -99,6 +99,13 @@ chmod +x /etc/net/scripts/nat
 ```
 service iptables enable
 ```
+# NAT 3 способ ISP,HQ-R,BR-R:
+Вариант настройки через iptables: Выполните команды (предполагается, что внешний интерфейс носит имя enp1s0):
+iptables -t nat -A POSTROUTING -s 192.0.2.0/24 -o enp1s0 -j SNAT --to-source 198.51.100.234
+iptables -A INPUT -i wlp3s2 -j ACCEPT
+iptables -A FORWARD -i wlp3s2 -o enp1s0 -j ACCEPT
+iptables-save > /etc/sysconfig/iptables
+
 # №1.2 FRR HQ-R,BR-R,ISP
 Установка пакета:
 ```
@@ -507,16 +514,24 @@ cp /var/lib/samba/private/krb5.conf /etc/krb5.conf
 
 ## Клиенты домена
 ### CLI
-Указываем сервер в `/etc/resolv.conf`:
-```
-nameserver 192.168.0.40
-```
 Установка active directory:
 ```
 apt-get install task-auth-ad-sssd
 ```
+Настройки адаптера
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/0f5cc71f-d1b3-40de-94bd-0eafc084b71b)
+
 Аутентификация
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/23067dd0-8f19-4530-98cf-7df64a9feadf)
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/e7686094-4d5f-4885-9917-754df2a1f130)
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/cd3290bc-02d5-43e6-83cc-8173fd54c31d)
+
+### BR-SRV
+Установка active directory:
+```
+apt-get install task-auth-ad-sssd
+```
