@@ -589,3 +589,26 @@ samba-tool dns zonecreate 127.0.0.1 0.168.192.in-addr.arpa -U administrator
 ```
 samba-tool dns zonecreate 127.0.0.1 100.168.192.in-addr.arpa -U administrator
 ```
+Создание записи типа А:
+```
+samba-tool dns add 127.0.0.1 hq.work hq-r A 192.168.0.1 -U administrator
+```
+```
+samba-tool dns add 127.0.0.1 hq.work hq-srv A 192.168.0.40 -U administrator
+```
+```
+samba-tool dns add 127.0.0.1 branch.work br-r A 192.168.100.1 -U administrator
+```
+```
+samba-tool dns add 127.0.0.1 branch.work br-srv A 192.168.100.2 -U administrator
+```
+Создание записи типа PTR:
+```
+samba-tool dns add 127.0.0.1 0.168.192.in-addr.arpa 1 PTR hq-r.hq.work -U administrator
+```
+```
+samba-tool dns add 127.0.0.1 0.168.192.in-addr.arpa 40 PTR hq-srv.hq.work -U administrator
+```
+```
+samba-tool dns add 127.0.0.1 100.168.192.in-addr.arpa 1 PTR br-r.branch.work -U administrator
+```
