@@ -113,12 +113,19 @@ chmod +x /etc/net/scripts/nat
 service iptables enable
 ```
 # NAT 3 способ ISP,HQ-R,BR-R:
-Вариант настройки через iptables: Выполните команды (предполагается, что внешний интерфейс носит имя enp1s0):
+iptables (предполагается, что внешний интерфейс носит имя enp1s0):
+```
 iptables -t nat -A POSTROUTING -s 192.0.2.0/24 -o enp1s0 -j SNAT --to-source 198.51.100.234
+```
+```
 iptables -A INPUT -i wlp3s2 -j ACCEPT
+```
+```
 iptables -A FORWARD -i wlp3s2 -o enp1s0 -j ACCEPT
+```
+```
 iptables-save > /etc/sysconfig/iptables
-
+```
 # №1.2 FRR HQ-R,BR-R,ISP
 Установка пакета:
 ```
