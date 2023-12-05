@@ -536,3 +536,20 @@ apt-get install task-auth-ad-sssd
 ```
 apt-get install task-auth-ad-sssd
 ```
+```
+nano /etc/resolv.conf
+```
+```
+search hq.work
+search branch.work
+nameserver 192.168.0.40
+```
+Ввод в домен system-auth write ad <Домен> <Имя компьютера> <Рабочая группа> <Имя пользователя> <Пароль>:
+```
+system-auth write ad hq.work br-srv hq 'administrator' 'P@ssw0rd'
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/50b23e0e-c57a-46ff-9326-97ced427810b)
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/b549eb73-463b-416d-9cf6-85586423c26c)
+
