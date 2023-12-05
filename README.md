@@ -1,6 +1,18 @@
 https://sysahelper.gitbook.io/sysahelper/main/complex_works/main/demo2024  
 https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/index.html  
 # №1.1 Сеть на подсети
+|Имя устройства |Интерфейс |Ip-адрес |Маска/Префикс |Шлюз |
+|:-:|:-:|:-:|:-:|:-:|
+|ISP|ens18|10.10.201.174|/24 255.255.255.0|10.10.201.254|
+||ens19|192.168.0.161|/30 255.255.255.252|              |
+||ens20|192.168.0.165|/30 255.255.255.252||
+|BR-R|ens18|192.168.0.162|/30 255.255.255.252|192.168.0.161|
+||ens19|192.168.100.1|/27 255.255.255.224||
+|HQ-R|ens18|192.168.0.166|/30 255.255.255.252|192.168.0.165|
+||ens19|192.168.0.1|/25 255.255.255.128||
+|BR-SRV|ens18|192.168.100.2|/27 255.255.255.224|192.168.100.1|
+|HQ-SRV|ens18|192.168.0.2|/25 255.255.255.128|192.168.0.1|
+
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/3412d3b9-7b67-4fc1-8cc9-9b0ac66ff7dc)
 
 ## HQ-SRV
@@ -452,7 +464,6 @@ nslookup hq-r.hq.work
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/c0f0a401-2bbf-430a-8b4c-ea683fd20048)
 
-
 # №2.1 SambaDC admc
 Перед установкой отключить конфликтующие службы krb5kdc, slapd, bind:
 ```
@@ -553,3 +564,15 @@ system-auth write ad hq.work br-srv hq 'administrator' 'P@ssw0rd'
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/b549eb73-463b-416d-9cf6-85586423c26c)
 
+# №2.1 DNS HQ-SRV
+Смотрим созданные доменом зоны:
+```
+samba-tool dns zonelist 127.0.0.1 -U administrator
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/6ba94fc9-e7e9-4600-a229-8c74fbb7cd7a)
+
+Создадим зону branch.work и две обратные:
+```
+samba-tool dns zonecreate 127.0.0.1 branch.work -U administrator
+```
