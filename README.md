@@ -576,3 +576,9 @@ samba-tool dns zonelist 127.0.0.1 -U administrator
 ```
 samba-tool dns zonecreate 127.0.0.1 branch.work -U administrator
 ```
+```
+samba-tool dns zonecreate 127.0.0.1 0.168.192.in-addr.arpa -U administrator
+```
+```
+samba-tool dns zonecreate 127.0.0.1 100.168.192.in-addr.arpa -U administrator
+```
