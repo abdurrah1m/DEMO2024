@@ -612,3 +612,7 @@ samba-tool dns add 127.0.0.1 0.168.192.in-addr.arpa 40 PTR hq-srv.hq.work -U adm
 ```
 samba-tool dns add 127.0.0.1 100.168.192.in-addr.arpa 1 PTR br-r.branch.work -U administrator
 ```
+Проверка
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/0adee76f-0961-4318-87bd-6340e7d01afb)
+
