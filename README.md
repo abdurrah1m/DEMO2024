@@ -194,7 +194,7 @@ do w
 
 # Модуль 1 задание 3
 
-Настройте автоматическое распределение IP-адресов на роутере HQ-R.
+Настройте автоматическое распределение IP-адресов на роутере HQ-R.  
 a. Учтите, что у сервера должен быть зарезервирован адрес.
 
 Установка пакета:
@@ -670,3 +670,185 @@ samba-tool dns add 127.0.0.1 100.168.192.in-addr.arpa 1 PTR br-r.branch.work -U 
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/0adee76f-0961-4318-87bd-6340e7d01afb)
 
+# Модуль 2 задание 4
+
+Реализуйте файловый SMB или NFS (выбор обоснуйте) сервер на базе сервера HQ-SRV.  
+a. Должны быть опубликованы общие папки по названиям:  
+i. Branch_Files - только для пользователя Branch admin;  
+ii. Network - только для пользователя Network admin;  
+iii. Admin_Files - только для пользователя Admin;  
+b. Каждая папка должна монтироваться на всех серверах в папку /mnt/<name_folder> (например, /mnt/All_files) автоматически при входе доменного пользователя в систему и отключаться при его выходе из сессии. Монтироваться должны только доступные пользователю каталоги.  
+Выберу NFS, потому что легче Samba:
+
+## Создание RAID
+
+```
+apt-get install -t mdadm
+```
+Смотрим утилитой `lsblk`, созданные диски
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/79af8002-bb01-4e62-a6d2-6998c5d1828c)
+
+Стираем данные суперблоков:
+```
+/sbin/mdadm --zero-superblock --force /dev/sd{b,c}
+```
+Если мы получили ответ:
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/724d960c-766e-4699-8ec8-b8843ef374dd)
+
+то значит, что диски не использовались ранее для RAID.
+
+Нужно удалить старые метаданные и подпись на дисках:
+```
+/sbin/wipefs --all --force /dev/sd{b,c}
+```
+Создание RAID:
+```
+/sbin/mdadm --create --verbose /dev/md0 -l 0 -n 2 /dev/sd{b,c}
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/5631c323-5f03-4a0d-b6c8-7a5899bc77da)
+
+где:
+* /dev/md0 — устройство RAID, которое появится после сборки;
+* -l 0 — уровень RAID;
+* -n 2 — количество дисков, из которых собирается массив;
+* /dev/sd{b,c} — сборка выполняется из дисков sdb и sdc.
+
+Проверяем:
+```
+lsblk
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/60cdcff5-5c86-4901-a655-5ff8425b4901)
+
+Создание файла mdadm.conf:
+> В файле mdadm.conf находится информация о RAID-массивах и компонентах, которые в них входят.
+
+```
+mkdir /etc/mdadm
+```
+```
+echo "DEVICE partitions" > /etc/mdadm/mdadm.conf
+```
+```
+/sbin/mdadm --detail --scan --verbose | awk '/ARRAY/ {print}' >> /etc/mdadm/mdadm.conf
+```
+
+Содержимое `mdadm.conf`
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/b630d9e9-f79b-4395-a58b-704ee5aee9f5)
+
+Создание файловой системы для массива:
+```
+/sbin/mkfs.ext4 /dev/md0
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/606b0728-28e9-43c5-94f7-696034642e98)
+
+Автозагрузка раздела с помощью `fstab`. Смотрим идентификатор раздела:
+```
+/sbin/blkid | grep /dev/md0
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/78b61509-38bd-4e74-8bf7-263b342158d7)
+
+Открываем `fstab` и добавляем строку:
+```
+nano /etc/fstab
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/d24809e4-d58c-419e-8004-cb8729211e7c)
+
+> в данном случае массив примонтирован в каталог `/mnt`
+
+Выполняем монтирование и проверяем
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/397a9392-8234-4e21-ba14-4b168acea47b)
+
+## Настройка NFS-сервера
+
+Установка пакетов для NFS сервера:
+```
+apt-get install -y nfs-server
+apt-get install -y rpcbind
+apt-get install -y nfs-clients
+apt-get install -y nfs-utils
+```
+Автозагрузка:
+```
+systemctl enable --now nfs
+```
+Создание директории общего доступа:
+```
+mkdir /mnt/nfs_share
+```
+```
+chmod 777 /mnt/nfs_share
+```
+Редактируем `exports`:
+```
+nano /etc/exports
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/50694635-7a92-4adc-9e68-ceebd01fc253)
+
+
+где:
+* /mnt/nfs_share - общий ресурс
+* 192.168.0.0/25 - клиентская сеть, которой разрешено монтирования общего ресурса
+* rw — разрешены чтение и запись
+* no_root_squash — отключение ограничения прав root
+
+Экспорт файловой системы:
+```
+/usr/sbin/exportfs -arv
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/b7957a6b-c029-45ac-95b6-78e6ce177e26)
+
+
+> exportfs с флагом -a, означающим экспортировать или отменить экспорт всех каталогов, -r означает повторный экспорт всех каталогов, синхронизируя /var/lib/nfs/etab с /etc/exports и файлами в /etc/exports.d, а флаг -v включает подробный вывод:
+
+Запускаем и добавляем в автозагрузку NFS-сервер:
+```
+systemctl enable --now nfs-server
+```
+
+## Настройка NFS-клиента
+
+Установка пакетов для NFS-клиента:
+```
+apt-get update && apt-get install -y nfs-{utils,clients}
+```
+Создадим директорию для монтирования общего ресурса:
+```
+mkdir /opt/share
+```
+```
+chmod 777 /opt/share
+```
+Настраиваем автомонтирование общего ресурса через `fstab`:
+```
+nano /etc/fstab
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/4a58bd44-b514-4e4b-b103-66ea864ec87c)
+
+где: 192.168.0.40 - адрес файлового сервера
+
+Монтируем:
+```
+mount -a
+```
+Проверяем:
+```
+df -h
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/7bb0c86b-ac11-411a-b2fa-1b95a52b55a4)
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/97fbd4e1-5475-4675-af7b-00fc80d2cbf8)
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/20f0eb72-6355-4b15-9eff-65b672e6c50c)
