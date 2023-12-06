@@ -926,6 +926,14 @@ c. Создайте пользователей в соответствии с т
 |User5|TEAM|
 |User6|TEAM|
 |User7|TEAM|
+
+Установка Moodle:
+```
+apt-get install -y moodle
+apt-get install -y moodle-apache2
+apt-get install -y moodle-local-mysql
+```
+
 <!--
 Установка `Apache`:
 ```
