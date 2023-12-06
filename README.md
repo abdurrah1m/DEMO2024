@@ -906,3 +906,36 @@ mount -a
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/c9a66793-840b-42fc-b3cc-175aceadedca)
 
+# Модуль 2 задание 5
+
+Сконфигурируйте веб-сервер LMS Apache на сервере BR-SRV:  
+a. На главной странице должен отражаться номер места  
+b. Используйте базу данных mySQL  
+c. Создайте пользователей в соответствии с таблицей, пароли у всех пользователей «P@ssw0rd»  
+
+|Пользователь|Группа|
+|:-:|:-:|
+|Admin|Admin|
+|Manager1|Manager|
+|Manager2|Manager|
+|Manager3|Manager|
+|User1|WS|
+|User2|WS|
+|User3|WS|
+|User4|WS|
+|User5|TEAM|
+|User6|TEAM|
+|User7|TEAM|
+
+Установка `Apache`:
+```
+apt-get install -y lamp-server
+```
+Автозагрузка `Apache`:
+```
+systemctl enable --now httpd2
+```
+Автозагрузка `MySQL`:
+```
+systemctl enable --now mysqld
+```
