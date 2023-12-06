@@ -926,7 +926,7 @@ c. Создайте пользователей в соответствии с т
 |User5|TEAM|
 |User6|TEAM|
 |User7|TEAM|
-
+<!--
 Установка `Apache`:
 ```
 apt-get install -y lamp-server
@@ -1005,3 +1005,4 @@ create database moodle
 ```
 grant all moodle.* to 'root' identified by 'P@ssw0rd';
 ```
+-->
