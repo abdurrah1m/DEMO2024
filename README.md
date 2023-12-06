@@ -68,6 +68,10 @@ service network restart
 systemctl restart network.service
 ```
 # NAT с помощью firewalld ISP,HQ-R,BR-R:
+Отключить NetworkManager:
+```
+systemctl disable network.service NetworkManager
+```
 Настройки интерфейсов должны быть такими:
 ```
 NM_CONTROLLED=no
