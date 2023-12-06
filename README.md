@@ -933,8 +933,6 @@ apt-get install -y moodle
 apt-get install -y moodle-apache2
 apt-get install -y moodle-local-mysql
 ```
-
-<!--
 Установка `Apache`:
 ```
 apt-get install -y lamp-server
@@ -1013,4 +1011,8 @@ create database moodle
 ```
 grant all moodle.* to 'root' identified by 'P@ssw0rd';
 ```
--->
+Входим в инсталлятор moodle http://<ip br-srv>/moodle
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/494739ed-3d1f-4a05-9f48-04dda281efbb)
+
+Драйвер БД "родной/mariadb"
