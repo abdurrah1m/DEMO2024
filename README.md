@@ -672,6 +672,8 @@ samba-tool dns add 127.0.0.1 100.168.192.in-addr.arpa 1 PTR br-r.branch.work -U 
 
 # Модуль 2 задание 4
 
+https://sysahelper.gitbook.io/sysahelper/main/linux_admin/main/fileserver_nfs
+
 Реализуйте файловый SMB или NFS (выбор обоснуйте) сервер на базе сервера HQ-SRV.  
 a. Должны быть опубликованы общие папки по названиям:  
 i. Branch_Files - только для пользователя Branch admin;  
@@ -852,3 +854,51 @@ df -h
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/97fbd4e1-5475-4675-af7b-00fc80d2cbf8)
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/20f0eb72-6355-4b15-9eff-65b672e6c50c)
+
+## Сервер HQ-SRV
+
+Создание общих папок на сервере:
+```
+mkdir /mnt/network -p
+```
+```
+mkdir /mnt/admin_files -p
+```
+```
+mkdir /mnt/branch_files -p
+```
+Заносим в `exports`:
+```
+nano /etc/exports
+```
+```
+/mnt/network 192.168.0.0/25 192.168.100.0/27(rw,sync,no_root_squash)
+/mnt/branch_files 192.168.100.0/27(rw,sync,no_root_squash)
+/mnt/admin_files 192.168.0.0/25 4.4.4.0/30(rw,sync,no_root_squash)
+```
+Экспортируем:
+```
+/usr/sbin/exportfs -arv
+```
+
+## Клиент HQ-SRV
+
+Создаём папку:
+```
+mkdir /opt/admin
+```
+Задаём права:
+```
+chmod 777 /opt/admin/
+```
+Автозагрузка в `fstab`:
+```
+192.168.0.40:/mnt/admin_files /opt/admin nfs defaults 0 0
+```
+Монтаж:
+```
+mount -a
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/c9a66793-840b-42fc-b3cc-175aceadedca)
+
