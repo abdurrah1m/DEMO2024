@@ -939,3 +939,69 @@ systemctl enable --now httpd2
 ```
 systemctl enable --now mysqld
 ```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/45c75a66-b58e-4b84-b87f-c7d7e4abe8c4)
+
+Установка `php`:
+```
+apt-get install php
+```
+Установка `MariaDB`:
+```
+apt-get install mariadb-server mariadb-client
+```
+Автозагрузка `MariaDB`:
+```
+systemctl enable --now mariadb
+```
+библиотеки moodle
+```
+apt-get install graphviz aspell
+```
+Переходим в корневой каталог `apache`:
+```
+cd /var/www/html
+```
+Установка `wget`:
+```
+apt-get install -y wget
+```
+Установка `Moodle`:
+```
+wget https://download.moodle.org/download.php/direct/stable30/moodle-3.0.zip
+```
+Распакоука:
+```
+unzip moodle-3.0.zip
+```
+Папка `moodle`:
+```
+cd moodle
+```
+Копируем в корневой каталог `apache`:
+```
+cp -r * /var/www/html/
+```
+Исправляем владельца файла:
+```
+chown -R apache: /var/www/html
+```
+Создание отдельного каталога, в котором хранятся данные учителей и учеников:
+```
+mkdir /var/www/moodledata
+```
+```
+chown -R apache: /var/www/moodledata
+```
+Входим в БД:
+```
+mariadb
+```
+Создаём таблицу
+```
+create database moodle
+```
+определяем владельца
+```
+grant all moodle.* to 'root' identified by 'P@ssw0rd';
+```
