@@ -536,6 +536,13 @@ systemctl stop krb5kdc
 systemctl disable krb5kdc
 systemctl status krb5kdc
 ```
+Поменять порт к web-интерфейсу:
+```
+nano /etc/ahttpd/ahttpd.conf
+```
+```
+server-port  8082
+```
 Установка:
 ```
 apt-get install -y task-samba-dc admc
@@ -1016,3 +1023,41 @@ grant all moodle.* to 'root' identified by 'P@ssw0rd';
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/494739ed-3d1f-4a05-9f48-04dda281efbb)
 
 Драйвер БД "родной/mariadb"
+
+# Модуль 2 задание 6
+
+Запустите сервис MediaWiki используя docker на сервере HQ-SRV.  
+a. Установите Docker и Docker Compose.  
+b. Создайте в домашней директории пользователя файл wiki.yml для приложения MediaWiki:  
+        i. Средствами docker compose должен создаваться стек контейнеров с приложением MediaWiki и базой данных  
+        ii. Используйте два сервиса;  
+        iii. Основной контейнер MediaWiki должен называться wiki и использовать образmediawiki;  
+        iv. Файл LocalSettings.php с корректными настройками должен находиться в домашней папке пользователя и автоматически монтироваться в образ;  
+        v. Контейнер с базой данных должен называться db и использовать образ mysql;  
+        vi. Он должен создавать базу с названием mediawiki, доступную по стандартному порту, для пользователя wiki с паролем DEP@ssw0rd;  
+        vii. База должна храниться в отдельном volume с названием dbvolume.  
+MediaWiki должна быть доступна извне через порт 8080.  
+
+Установка Docker и Docker-compose:
+```
+apt-get install -y docker-engine
+apt-get install -y docker-compose
+```
+Автозагрузка `Docker`:
+```
+systemctl enable --now docker
+```
+Установка mariadb:
+```
+apt-get install -y mariadb
+```
+Скачиваем образ `MediaWiki`:
+```
+docker pull mediawiki
+```
+```
+```
+Создание `wiki.yml`:
+```
+touch wiki.yml
+```
