@@ -1055,9 +1055,22 @@ apt-get install -y mariadb
 ```
 docker pull mediawiki
 ```
+Создаём контейнер:
 ```
+docker run --name MEDIAWIKI -p 8080:80 -d mediawiki
 ```
+> "--name" - имя контейнера  
+> "-p" - порт  
+> "-d" - фоновый запуск  
+
+Переходим по адресу `http://<ip-сервера>:8080`
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/eabede45-93c2-4afd-bb0e-8ebd1356c922)
+
+
 Создание `wiki.yml`:
 ```
 touch wiki.yml
 ```
+https://runebook.dev/ru/docs/mariadb/installing-and-using-mariadb-via-docker/index  
+https://russianblogs.com/article/28191194711/  
