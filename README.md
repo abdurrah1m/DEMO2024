@@ -1,6 +1,8 @@
 https://sysahelper.gitbook.io/sysahelper/main/complex_works/main/demo2024  
 https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/index.html  
 
+# Все действия делаются на ALTSERVER И ALTSTATION 10.1
+
 # Модуль 1 задание 1 
 1. Выполните базовую настройку всех устройств:  
 a. Присвоить имена в соответствии с топологией  
