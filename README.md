@@ -685,7 +685,8 @@ samba-tool dns add 127.0.0.1 100.168.192.in-addr.arpa 1 PTR br-r.branch.work -U 
 
 # Модуль 2 задание 4
 
-https://sysahelper.gitbook.io/sysahelper/main/linux_admin/main/fileserver_nfs
+https://sysahelper.gitbook.io/sysahelper/main/linux_admin/main/fileserver_nfs  
+https://www.altlinux.org/NFS_%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80_%D1%81_Kerberos_%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B5%D0%B9  
 
 Реализуйте файловый SMB или NFS (выбор обоснуйте) сервер на базе сервера HQ-SRV.  
 a. Должны быть опубликованы общие папки по названиям:  
