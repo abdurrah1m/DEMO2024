@@ -69,6 +69,68 @@ service network restart
 ```
 systemctl restart network.service
 ```
+# Туннель между HQ-R и BR-R
+HQ-R
+```
+mkdir /etc/net/ifaces/iptunnel
+```
+```
+nano /etc/net/ifaces/iptunnel/ipv4address
+```
+```
+10.20.30.1/30
+```
+```
+nano /etc/net/ifaces/iptunnel/options
+```
+```
+TYPE=iptun
+TUNTYPE=gre
+TUNLOCAL=11.11.11.2
+TUNREMOTE=22.22.22.2
+TUNOPTIONS='ttl 64'
+HOST=ens18
+```
+```
+nano /etc/net/ifaces/iptunnel/ipv4route
+```
+```
+10.20.30.0/30 via 10.20.30.2
+```
+```
+systemctl restart network
+```
+
+BR-R
+```
+mkdir /etc/net/ifaces/iptunnel
+```
+```
+nano /etc/net/ifaces/iptunnel/ipv4address
+```
+```
+10.20.30.2/30
+```
+```
+nano /etc/net/ifaces/iptunnel/options
+```
+```
+TYPE=iptun
+TUNTYPE=gre
+TUNLOCAL=22.22.22.2
+TUNREMOTE=11.11.11.2
+TUNOPTIONS='ttl 64'
+HOST=ens18
+```
+```
+nano /etc/net/ifaces/iptunnel/ipv4route
+```
+```
+10.20.30.0/30 via 10.20.30.1
+```
+```
+systemctl restart network
+```
 # NAT с помощью firewalld ISP,HQ-R,BR-R:
 Отключить NetworkManager:
 ```
