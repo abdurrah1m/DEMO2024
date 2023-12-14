@@ -148,6 +148,34 @@ iptables -A FORWARD -i wlp3s2 -o enp1s0 -j ACCEPT
 ```
 iptables-save > /etc/sysconfig/iptables
 ```
+# NAT 4 способ HQ-R,BR-R
+nftables
+```
+apt-get update && apt-get -y install nftables
+```
+```
+nft flush ruleset   # для удаления всех правил и таблиц в системе, которые были настроены с использованием nftables
+nft add table nat   # используется для создания новой таблицы с именем "nat" 
+```
+Prerouting
+```
+nft -- add chain nat prerouting { type nat hook prerouting priority -100 \; }
+```
+Postrouting
+```
+nft add chain nat postrouting { type nat hook postrouting priority 100 \; }
+```
+Применяем правило к интерфейсу, который смотрит в сторону Интернета
+```
+nft add rule nat postrouting oifname "ens33" masquerade
+```
+Сохранение правил
+```
+echo "#!/usr/sbin/nft -f" > /etc/nftables/nftables.nft
+echo "flush ruleset" >> /etc/nftables/nftables.nft
+nft list ruleset >> /etc/nftables/nftables.nft
+systemctl restart nftables
+```
 # Модуль 1 задание 2
 
 Настройте внутреннюю динамическую маршрутизацию по средствам FRR. Выберите и обоснуйте выбор протокола динамической маршрутизации из расчёта, что в дальнейшем сеть будет масштабироваться.  
