@@ -76,8 +76,10 @@ systemctl disable network.service NetworkManager
 ```
 Настройки интерфейсов должны быть такими:
 ```
+...
 NM_CONTROLLED=no
 DISABLED=no
+...
 ```
 Установка firewalld:
 ```
