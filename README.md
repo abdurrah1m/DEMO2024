@@ -371,18 +371,12 @@ ens18:
 adduser admin
 ```
 ```
-usermod -aG root admin
+usermod -aG wheel admin
 ```
 ```
 passwd admin
 P@ssw0rd
 P@ssw0rd
-```
-```
-nano /etc/passwd
-```
-```
-admin:x:0:501::/home/admin:/bin/bash
 ```
 # Модуль 1 задание 5
 
