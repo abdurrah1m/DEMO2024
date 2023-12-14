@@ -131,7 +131,65 @@ nano /etc/net/ifaces/iptunnel/ipv4route
 ```
 systemctl restart network
 ```
-# NAT с помощью firewalld ISP,HQ-R,BR-R:
+
+# Модуль 1 задание 2
+
+Настройте внутреннюю динамическую маршрутизацию по средствам FRR. Выберите и обоснуйте выбор протокола динамической маршрутизации из расчёта, что в дальнейшем сеть будет масштабироваться.  
+a. Составьте топологию сети L3.  
+
+Установка пакета:
+```
+apt-get -y install frr
+```
+Автозагрузка:
+```
+systemctl enable --now frr
+```
+Включение демона службы ospf:
+```
+sed -i 's/ospfd=no/ospfd=yes/g' /etc/frr/daemons
+```
+```
+ospfd=yes
+```
+```
+systemctl restart frr
+```
+Вход в среду роутера:
+```
+vtysh
+```
+Показать интерфейсы:
+```
+sh in br
+```
+|Interface|Status|VRF|Adresses|
+|:-:|:-:|:-:|:-:|
+|ens18|up|default|192.168.0.162/30|
+|ens19|up|default|192.168.0.129/27|
+|lo|up|default||
+
+Активировать ospf:
+```
+router ospf
+```
+Вводим СЕТИ:
+```
+net 192.168.0.160/30 area 0
+net 192.168.0.128/27 area 0
+```
+Показать соседей:
+```
+do sh ip ospf neighbor
+```
+СОХРАНИТЬ КОНФИГИ:
+```
+do w
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/a39631c1-a683-47d2-a63a-4bbb93d7556a)
+
+# NAT и открывание портов с помощью firewalld ISP,HQ-R,BR-R:
 Отключить NetworkManager:
 ```
 systemctl disable network.service NetworkManager
@@ -163,6 +221,33 @@ firewall-cmd --permanent --zone=public --add-masquerade
 ```
 firewall-cmd --reload
 ```
+Включаем пересылку всех пакетов на ISP между BR-R и HQ-R
+```
+firewall-cmd --direct --permanent --add-rule ipv4 filter FORWARD 0 -i ens35 -o ens34 -j ACCEPT
+firewall-cmd --direct --permanent --add-rule ipv4 filter FORWARD 0 -i ens34 -o ens35 -j ACCEPT
+```
+Открываем порты OSPF:
+```
+firewall-cmd --permanent --zone=trusted --add-port=89/tcp
+firewall-cmd --permanent --zone=trusted --add-port=89/udp
+```
+HQ-R и BR-R
+Включаем пересылку между интерфейсом смотрящим в ISP и туннелем:
+```
+firewall-cmd --direct --permanent --add-rule ipv4 filter FORWARD 0 -i ens160 -o iptunnel -j ACCEPT
+firewall-cmd --direct --permanent --add-rule ipv4 filter FORWARD 0 -i iptunnel -o ens160 -j ACCEPT
+```
+Открываем порты OSPF:
+```
+firewall-cmd --permanent --zone=trusted --add-port=89/tcp
+firewall-cmd --permanent --zone=trusted --add-port=89/udp
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/4823d6ae-ed09-4919-a691-db6a1ed11570)
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/079d9e20-d946-4183-9157-30456762f88e)
+
+
 # NAT 2 способ ISP,HQ-R,BR-R:
 Включаем пересылку пакетов:
 ```
@@ -234,62 +319,6 @@ echo "flush ruleset" >> /etc/nftables/nftables.nft
 nft list ruleset >> /etc/nftables/nftables.nft
 systemctl restart nftables
 ```
-# Модуль 1 задание 2
-
-Настройте внутреннюю динамическую маршрутизацию по средствам FRR. Выберите и обоснуйте выбор протокола динамической маршрутизации из расчёта, что в дальнейшем сеть будет масштабироваться.  
-a. Составьте топологию сети L3.  
-
-Установка пакета:
-```
-apt-get -y install frr
-```
-Автозагрузка:
-```
-systemctl enable --now frr
-```
-Включение демона службы ospf:
-```
-sed -i 's/ospfd=no/ospfd=yes/g' /etc/frr/daemons
-```
-```
-ospfd=yes
-```
-```
-systemctl restart frr
-```
-Вход в среду роутера:
-```
-vtysh
-```
-Показать интерфейсы:
-```
-sh in br
-```
-|Interface|Status|VRF|Adresses|
-|:-:|:-:|:-:|:-:|
-|ens18|up|default|192.168.0.162/30|
-|ens19|up|default|192.168.0.129/27|
-|lo|up|default||
-
-Активировать ospf:
-```
-router ospf
-```
-Вводим СЕТИ:
-```
-net 192.168.0.160/30 area 0
-net 192.168.0.128/27 area 0
-```
-Показать соседей:
-```
-do sh ip ospf neighbor
-```
-СОХРАНИТЬ КОНФИГИ:
-```
-do w
-```
-
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/a39631c1-a683-47d2-a63a-4bbb93d7556a)
 
 # Модуль 1 задание 3
 
