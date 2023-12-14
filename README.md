@@ -130,7 +130,7 @@ chmod +x /etc/net/scripts/nat
 ```
 Автозагрузка:
 ```
-service iptables enable
+systemctl enable --now iptables
 ```
 # NAT 3 способ ISP,HQ-R,BR-R:
 iptables (предполагается, что внешний интерфейс носит имя enp1s0):
