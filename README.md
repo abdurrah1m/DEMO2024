@@ -145,11 +145,7 @@ DISABLED=no
 ```
 Установка firewalld:
 ```
-apt-get -y install firewalld
-```
-Автозагрузка:
-```
-systemctl enable --now firewalld
+apt-get update && apt-get -y install firewalld && systemctl enable --now firewalld
 ```
 Правила к исходящим пакетам:
 ```
