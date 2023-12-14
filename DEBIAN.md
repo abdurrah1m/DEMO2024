@@ -131,6 +131,31 @@ chmod +x /etc/network/if-pre-up.d/nat
 ```
 dhcp debian https://setiwik.ru/kak-nastroit-dhcp-server-v-debian-11/?ysclid=lo4mpr8jcj791182994  
 
+Отключить NetworkManager:
+```
+systemctl disable network.service NetworkManager
+```
+Установка firewalld:
+```
+apt-get update && apt-get -y install firewalld && systemctl enable --now firewalld
+```
+Правила к исходящим пакетам:
+```
+firewall-cmd --permanent --zone=public --add-interface=ens33
+```
+Правила к входящим пакетам:
+```
+firewall-cmd --permanent --zone=trusted --add-interface=ens34
+```
+Включение NAT:
+```
+firewall-cmd --permanent --zone=public --add-masquerade
+```
+Сохранение правил:
+```
+firewall-cmd --reload
+```
+
 # №1.2 FRR OSPF(ISP,HQ-R,BR-R)
 Установка frr
 ```
