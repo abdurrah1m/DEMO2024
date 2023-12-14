@@ -104,6 +104,11 @@ firewall-cmd --permanent --zone=public --add-masquerade
 firewall-cmd --reload
 ```
 # NAT 2 способ ISP,HQ-R,BR-R:
+Включаем пересылку пакетов:
+```
+nano /etc/net/sysctl.conf
+net.ipv4.ip_forward = 1
+```
 Правило:
 ```
 iptables -A POSTROUTING -t nat -j MASQUERADE
