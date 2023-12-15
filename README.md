@@ -654,11 +654,13 @@ nslookup hq-r.hq.work
 
 # Модуль 2 задание 3
 
+https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/index.html
+
 Настройте сервер домена на базе HQ-SRV через web интерфейс, выбор его типа и технологий обоснуйте.  
 a. Введите машины BR-SRV и CLI в данный домен  
 b. Организуйте отслеживание подключения к домену  
 
-Перед установкой отключить конфликтующие службы krb5kdc, slapd, bind:
+Перед установкой отключить конфликтующие службы krb5kdc, slapd, bind, smb, nmb:
 ```
 systemctl stop krb5kdc
 systemctl disable krb5kdc
@@ -709,6 +711,9 @@ mkdir -p /var/lib/samba/sysvol
 Вот такие настройки
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/1e8abedf-b249-4cea-b2a6-8549c6d5d0d1)
+
+
+
 
 ОБЯЗАТЕЛЬНО ПЕРЕЗАГРУЗИТЬ МАШИНУ  
 При входе получаем билет
