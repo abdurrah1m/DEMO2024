@@ -192,10 +192,13 @@ do w
 # NAT и открывание портов с помощью firewalld ISP,HQ-R,BR-R:
 
 https://www.dmosk.ru/miniinstruktions.php?mini=firewalld-centos&ysclid=lq6h7dyu12576099184
+https://www.dmosk.ru/miniinstruktions.php?mini=firewalld-centos&ysclid=lq6lwe2gxx781068118
+
+опция CONFIG_FW (в файле /etc/net/ifaces/default/options) =yes
 
 Отключить NetworkManager:
 ```
-systemctl disable network.service NetworkManager
+systemctl disable NetworkManager
 ```
 Настройки интерфейсов должны быть такими:
 ```
@@ -654,7 +657,11 @@ nslookup hq-r.hq.work
 
 # Модуль 2 задание 3
 
-https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/index.html
+https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/install-package.html
+https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/ch02s03.html  
+https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/testing-samba-dc.html  
+https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/ch02s02s03.html  
+https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/index.html  
 
 Настройте сервер домена на базе HQ-SRV через web интерфейс, выбор его типа и технологий обоснуйте.  
 a. Введите машины BR-SRV и CLI в данный домен  
