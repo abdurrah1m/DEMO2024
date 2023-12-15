@@ -561,7 +561,7 @@ nano /etc/chrony.conf
 ```
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/7cc4f29b-f180-40d9-bdde-fe031658417c)
 
-Конфигурация на клиентах (в зависимости от сети):
+Конфигурация на клиентах (в зависимости от сети):  
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/d0115300-bf60-47ed-ad7d-3f3beabd438f)
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/06ea5432-dcef-43d8-b20e-a14afb36c0d3)
@@ -570,6 +570,10 @@ nano /etc/chrony.conf
 ```
 chronyc clients
 ```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/86123bd5-6a33-4e11-b62f-c7f5ecbdc091)
+
+
 # Модуль 2 задание 1
 
 Настройте DNS-сервер на сервере HQ-SRV: 
