@@ -1077,93 +1077,102 @@ c. Создайте пользователей в соответствии с т
 
 Установка Moodle:
 ```
-apt-get install -y moodle
+apt-get update && apt-get install -y moodle
+```
+```
 apt-get install -y moodle-apache2
+```
+```
 apt-get install -y moodle-local-mysql
 ```
-Установка `Apache`:
-```
-apt-get install -y lamp-server
-```
-Автозагрузка `Apache`:
-```
-systemctl enable --now httpd2
-```
-Автозагрузка `MySQL`:
-```
-systemctl enable --now mysqld
-```
-
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/45c75a66-b58e-4b84-b87f-c7d7e4abe8c4)
-
-Установка `php`:
-```
-apt-get install php
-```
-Установка `MariaDB`:
-```
-apt-get install mariadb-server mariadb-client
-```
-Автозагрузка `MariaDB`:
+Автозагрузка базы данных:
 ```
 systemctl enable --now mariadb
 ```
-библиотеки moodle
+Автозагрузка Apache2 (В AltLinux назывется httpd2):
 ```
-apt-get install graphviz aspell
+systemctl enable --now httpd2
 ```
-Переходим в корневой каталог `apache`:
+Входим в СУБД:
 ```
-cd /var/www/html
+mysql -u root
 ```
-Установка `wget`:
+Создаём базу данных:
 ```
-apt-get install -y wget
+CREATE DATABASE moodle DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ```
-Установка `Moodle`:
+Ставим максимальные права пользователя `moodleuser` в БД `moodle`, пароль `moodlepasswd`:
 ```
-wget https://download.moodle.org/download.php/direct/stable30/moodle-3.0.zip
+GRANT ALL ON moodle.* TO moodleuser@localhost IDENTIFIED BY 'moodlepasswd';
 ```
-Распакоука:
+Обновляем политики:
 ```
-unzip moodle-3.0.zip
+FLUSH PRIVILEGES;
 ```
-Папка `moodle`:
+Выходим:
 ```
-cd moodle
+EXIT
 ```
-Копируем в корневой каталог `apache`:
+Перезапускаем сервисы:
 ```
-cp -r * /var/www/html/
+systemctl restart httpd2
+systemctl restart mariadb
 ```
-Исправляем владельца файла:
-```
-chown -R apache: /var/www/html
-```
-Создание отдельного каталога, в котором хранятся данные учителей и учеников:
-```
-mkdir /var/www/moodledata
-```
-```
-chown -R apache: /var/www/moodledata
-```
-Входим в БД:
-```
-mariadb
-```
-Создаём таблицу
-```
-create database moodle
-```
-определяем владельца
-```
-grant all moodle.* to 'root' identified by 'P@ssw0rd';
-```
-Входим в инсталлятор moodle http://<ip br-srv>/moodle
+Заходим по адресу `http://localhost/moodle`  
+Выбираем русский язык
 
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/494739ed-3d1f-4a05-9f48-04dda281efbb)
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/f020417c-1936-48e2-9cc9-bae8dceec0cb)
 
-Драйвер БД "родной/mariadb"
+Потверждаем пути
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/961e879c-2d88-46ba-b690-56a7320973dc)
+
+Драйвер базы данных MariaDB
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/dcc4c7f4-ab45-461e-b99a-572a68d36c7b)
+
+Сервер баз данных `localhost`  
+Название БД `moodle`  
+Пользователь БД `moodleuser`  
+Пароль `moodlepasswd`  
+Префикс имен таблиц `mdl_`  
+Порт БД `3106`  
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/26d2f4fe-053b-4f30-8e4e-eed6d91b9b57)
+
+Продолжить
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/2d341da2-0aea-42d4-842a-d991292cc518)
+
+Меняем количество максимальных переменных:
+```
+nano /etc/php/8.0/apache2-mod_php/php.ini
+```
+Убираем `;` перед `max_input_vars = 1000`
+```
+max_input_vars = 6000
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/41f0e391-c2a3-469c-b182-c628612981d6)
+
+Должно появиться такое
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/a9869cac-81e9-478a-a4fc-ef8f14033c53)
+
+В следующей массивной странице должны вывестись все записи `Успешно`, продолжаем
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/4d413865-88c9-4b45-b188-79e8a7b6080c)
+
+Логин `admin`  
+Пароль `P@ssw0rd`  
+e-mail `любой`  
+Часовой пояс `Азия/Екатеринбург`  
+
+Дальше задаём имя ресурса и т. д.  
+Попадаем на главную страницу  
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/cb8407d4-a83b-4654-88b8-c9078b68f9a5)
+
 
 # Модуль 2 задание 6
 
