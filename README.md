@@ -3,6 +3,8 @@ https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/index.html
 
 # Все действия делаются на ALTSERVER И ALTSTATION 10.1
 
+***
+
 # Модуль 1 задание 1 
 1. Выполните базовую настройку всех устройств:  
 a. Присвоить имена в соответствии с топологией  
@@ -132,6 +134,8 @@ nano /etc/net/ifaces/iptunnel/ipv4route
 systemctl restart network
 ```
 
+***
+
 # Модуль 1 задание 2
 
 Настройте внутреннюю динамическую маршрутизацию по средствам FRR. Выберите и обоснуйте выбор протокола динамической маршрутизации из расчёта, что в дальнейшем сеть будет масштабироваться.  
@@ -253,6 +257,7 @@ firewall-cmd --permanent --zone=trusted --add-port=89/udp
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/079d9e20-d946-4183-9157-30456762f88e)
 
+***
 
 # NAT 2 способ ISP,HQ-R,BR-R:
 Включаем пересылку пакетов:
@@ -326,6 +331,8 @@ nft list ruleset >> /etc/nftables/nftables.nft
 systemctl restart nftables
 ```
 
+***
+
 # Модуль 1 задание 3
 
 Настройте автоматическое распределение IP-адресов на роутере HQ-R.  
@@ -392,6 +399,9 @@ service network restart
 ens18:
     inet 192.168.0.38/25 brd 192.168.0.127
 ```
+
+***
+
 # Модуль 1 задание 4
 Настройте локальные учётные записи на всех устройствах в соответствии с таблицей.
 
@@ -413,6 +423,9 @@ passwd admin
 P@ssw0rd
 P@ssw0rd
 ```
+
+***
+
 # Модуль 1 задание 5
 
 Измерьте пропускную способность сети между двумя узлами HQ-R-ISP по средствам утилиты iperf 3. Предоставьте описание пропускной способности канала со скриншотами.
@@ -438,6 +451,9 @@ iperf3 -c 192.168.0.161 -f M
 [ 5] 1.00-2.00 sec 338 MBytes 338 MBytes/sec    0 676 KBytes
 [ 5] 3.00-4.00 sec 341 MBytes 341 MBytes/sec    0 749 KBytes
 ```
+
+***
+
 # Модуль 1 задание 6
 
 Составьте backup скрипты для сохранения конфигурации сетевых устройств, а именно HQ-R BR-R. Продемонстрируйте их работу.
@@ -502,6 +518,9 @@ systemctl enable --now urbackup-client
 Теперь можно делать бэкапы
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/dc59516b-0280-4012-a19e-7b2e8a2c2ab5)
+
+***
+
 # Модуль 1 задание 7
 
 Настройте подключение по SSH для удалённого конфигурирования устройства HQ-SRV по порту 2222. Учтите, что вам необходимо перенаправить трафик на этот порт по средствам контролирования трафика.
@@ -525,6 +544,9 @@ PasswordAuthentication yes
 ```
 ssh student@192.168.0.40 -p 2222
 ```
+
+***
+
 # Модуль 1 задание 8
 
 Настройте контроль доступа до HQ-SRV по SSH со всех устройств, кроме CLI.
@@ -537,6 +559,8 @@ nano /etc/openssh/sshd_config
 ```
 AllowUsers student@192.168.0.1 student@192.168.0.140 student@192.168.0.129 student@10.10.201.174
 ```
+
+***
 
 # Модуль 2 задание 2
 
@@ -576,6 +600,7 @@ chronyc clients
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/86123bd5-6a33-4e11-b62f-c7f5ecbdc091)
 
+***
 
 # Модуль 2 задание 1
 
@@ -655,6 +680,8 @@ nslookup hq-r.hq.work
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/c0f0a401-2bbf-430a-8b4c-ea683fd20048)
 
+***
+
 # Модуль 2 задание 3
 
 https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/install-package.html
@@ -718,8 +745,6 @@ mkdir -p /var/lib/samba/sysvol
 Вот такие настройки
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/1e8abedf-b249-4cea-b2a6-8549c6d5d0d1)
-
-
 
 
 ОБЯЗАТЕЛЬНО ПЕРЕЗАГРУЗИТЬ МАШИНУ  
@@ -820,6 +845,8 @@ samba-tool dns add 127.0.0.1 100.168.192.in-addr.arpa 1 PTR br-r.branch.work -U 
 Проверка
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/0adee76f-0961-4318-87bd-6340e7d01afb)
+
+***
 
 # Модуль 2 задание 4
 
@@ -1054,6 +1081,8 @@ mount -a
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/c9a66793-840b-42fc-b3cc-175aceadedca)
 
+***
+
 # Модуль 2 задание 5
 
 Сконфигурируйте веб-сервер LMS Apache на сервере BR-SRV:  
@@ -1182,6 +1211,7 @@ e-mail `любой`
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/5e33f9e8-6f45-4097-99c7-7283fa2b6f5a)
 
+***
 
 # Модуль 2 задание 6
 
@@ -1283,16 +1313,5 @@ Mediawiki успешно установлена
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/972a864d-cb67-4395-9ca8-f83d4bcead94)
 
-
-
 ***
 
-Создание контейнера с БД с пробросом порта:
-```
-docker run -d --name db --env MARIADB_USER=wiki --env MARIADB_PASSWORD=DEP@ssw0rd -env MARIADB_ROOT_PASSWORD=P@ssw0rd -p 3306:3306 mariadb:latest
-```
-Контейнер phpmyadmin:
-```
-docker run --name phpmyadmin -d --link db:db -p 8081:80 phpmyadmin
-```
-Подключение к базе данных по адресу 192.168.0.2:8081
