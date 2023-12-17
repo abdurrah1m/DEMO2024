@@ -1,7 +1,7 @@
 https://sysahelper.gitbook.io/sysahelper/main/complex_works/main/demo2024  
 https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/index.html  
 
-# Все действия делаются на ALTSERVER И ALTSTATION 10.1
+# Все действия выполняются на ALTSERVER И ALTSTATION 10.1
 
 ***
 
@@ -70,68 +70,6 @@ service network restart
 или
 ```
 systemctl restart network.service
-```
-# Туннель между HQ-R и BR-R
-HQ-R
-```
-mkdir /etc/net/ifaces/iptunnel
-```
-```
-nano /etc/net/ifaces/iptunnel/ipv4address
-```
-```
-10.20.30.1/30
-```
-```
-nano /etc/net/ifaces/iptunnel/options
-```
-```
-TYPE=iptun
-TUNTYPE=gre
-TUNLOCAL=11.11.11.2
-TUNREMOTE=22.22.22.2
-TUNOPTIONS='ttl 64'
-HOST=ens18
-```
-```
-nano /etc/net/ifaces/iptunnel/ipv4route
-```
-```
-10.20.30.0/30 via 10.20.30.2
-```
-```
-systemctl restart network
-```
-
-BR-R
-```
-mkdir /etc/net/ifaces/iptunnel
-```
-```
-nano /etc/net/ifaces/iptunnel/ipv4address
-```
-```
-10.20.30.2/30
-```
-```
-nano /etc/net/ifaces/iptunnel/options
-```
-```
-TYPE=iptun
-TUNTYPE=gre
-TUNLOCAL=22.22.22.2
-TUNREMOTE=11.11.11.2
-TUNOPTIONS='ttl 64'
-HOST=ens18
-```
-```
-nano /etc/net/ifaces/iptunnel/ipv4route
-```
-```
-10.20.30.0/30 via 10.20.30.1
-```
-```
-systemctl restart network
 ```
 
 ***
@@ -1314,4 +1252,112 @@ Mediawiki успешно установлена
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/972a864d-cb67-4395-9ca8-f83d4bcead94)
 
 ***
+
+# Модуль 3 задание 1
+
+1. Реализуйте мониторинг по средствам rsyslog на всех Linux хостах.   
+a. Составьте отчёт о том, как работает мониторинг
+
+***
+
+# Модуль 3 задание 7
+
+Между офисами HQ и BRANCH установите защищенный туннель, позволяющий осуществлять связь между регионами с применением внутренних адресов.
+
+HQ-R
+```
+mkdir /etc/net/ifaces/iptunnel
+```
+```
+nano /etc/net/ifaces/iptunnel/ipv4address
+```
+```
+10.20.30.1/30
+```
+```
+nano /etc/net/ifaces/iptunnel/options
+```
+```
+TYPE=iptun
+TUNTYPE=gre
+TUNLOCAL=11.11.11.2
+TUNREMOTE=22.22.22.2
+TUNOPTIONS='ttl 64'
+HOST=ens18
+```
+```
+nano /etc/net/ifaces/iptunnel/ipv4route
+```
+```
+10.20.30.0/30 via 10.20.30.2
+```
+```
+systemctl restart network
+```
+
+BR-R
+```
+mkdir /etc/net/ifaces/iptunnel
+```
+```
+nano /etc/net/ifaces/iptunnel/ipv4address
+```
+```
+10.20.30.2/30
+```
+```
+nano /etc/net/ifaces/iptunnel/options
+```
+```
+TYPE=iptun
+TUNTYPE=gre
+TUNLOCAL=22.22.22.2
+TUNREMOTE=11.11.11.2
+TUNOPTIONS='ttl 64'
+HOST=ens18
+```
+```
+nano /etc/net/ifaces/iptunnel/ipv4route
+```
+```
+10.20.30.0/30 via 10.20.30.1
+```
+```
+systemctl restart network
+```
+Установим strongswan:
+```
+apt-get update && apt-get install -y strongswan
+```
+Включим и добавим в автозагрузку службы для работы IPSec:
+```
+systemctl enable --now strongswan-starter.service
+systemctl enable --now ipsec
+```
+HQ-R  
+
+Конфигурационный файл "/etc/strongswan/ipsec.conf":
+```
+nano /etc/strongswan/ipsec.conf
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/05f62fd9-820f-4095-ac87-e404f8752da0)
+
+Задаём общий секрет:
+```
+nano /etc/strongswan/ipsec.secrets
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/e01993b0-8ace-40f5-ae80-17151b6d8982)
+
+Перезапускаем:
+```
+systemctl restart ipsec
+```
+BR-R  
+Те же самые настройки, меняем местами ip-адреса  
+Проверка  
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/90b247f8-e2ed-4fc2-9270-d1cf69d66dfc)
+
 
