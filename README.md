@@ -802,7 +802,7 @@ b. Каждая папка должна монтироваться на всех
 ## Создание RAID
 
 ```
-apt-get install -t mdadm
+apt-get install -y mdadm
 ```
 Смотрим утилитой `lsblk`, созданные диски
 
@@ -1360,4 +1360,98 @@ BR-R
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/90b247f8-e2ed-4fc2-9270-d1cf69d66dfc)
 
+***
 
+# Модуль 3 задание 9
+
+Настройте программный RAID 5 из дисков по 1 Гб, которые подключены к машине BR-SRV.
+
+
+```
+apt-get install -y mdadm
+```
+Смотрим утилитой `lsblk`, созданные диски
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/1b5040fb-2b3f-4341-a3f6-3cfde10138f5)
+
+
+Стираем данные суперблоков:
+```
+/sbin/mdadm --zero-superblock --force /dev/sd{b,c}
+```
+Если мы получили ответ:
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/47d72cbd-02bb-43e6-860f-4a2d204b7e0a)
+
+
+то значит, что диски не использовались ранее для RAID.
+
+Нужно удалить старые метаданные и подпись на дисках:
+```
+/sbin/wipefs --all --force /dev/sd{b,c}
+```
+Создание RAID:
+```
+/sbin/mdadm --create --verbose /dev/md0 -l 0 -n 2 /dev/sd{b,c}
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/748390a5-8bae-4510-8160-efe2ffe2da96)
+
+где:
+* /dev/md0 — устройство RAID, которое появится после сборки;
+* -l 5 — уровень RAID;
+* -n 3 — количество дисков, из которых собирается массив;
+* /dev/sd{b,c,d} — сборка выполняется из дисков sdb и sdc.
+
+Проверяем:
+```
+lsblk
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/330b64fd-e02b-4dfb-b875-546bd8346f8a)
+
+
+Создание файла mdadm.conf:
+> В файле mdadm.conf находится информация о RAID-массивах и компонентах, которые в них входят.
+
+```
+mkdir /etc/mdadm
+```
+```
+echo "DEVICE partitions" > /etc/mdadm/mdadm.conf
+```
+```
+/sbin/mdadm --detail --scan --verbose | awk '/ARRAY/ {print}' >> /etc/mdadm/mdadm.conf
+```
+
+Содержимое `mdadm.conf`
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/b5968fd4-a3d4-4421-9d64-a6e091137bcf)
+
+
+Создание файловой системы для массива:
+```
+/sbin/mkfs.ext4 /dev/md0
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/606b0728-28e9-43c5-94f7-696034642e98)
+
+Автозагрузка раздела с помощью `fstab`. Смотрим идентификатор раздела:
+```
+/sbin/blkid | grep /dev/md0
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/78b61509-38bd-4e74-8bf7-263b342158d7)
+
+Открываем `fstab` и добавляем строку:
+```
+nano /etc/fstab
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/d24809e4-d58c-419e-8004-cb8729211e7c)
+
+> в данном случае массив примонтирован в каталог `/mnt`
+
+Выполняем монтирование и проверяем
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/397a9392-8234-4e21-ba14-4b168acea47b)
