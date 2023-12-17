@@ -1206,33 +1206,82 @@ apt-get install -y docker-compose
 ```
 systemctl enable --now docker
 ```
-Установка mariadb:
+Привязка пользователя к `Docker`:
 ```
-apt-get install -y mariadb
+usermod student -aG docker
 ```
-Скачиваем образ `MediaWiki`:
+Переходим к домашней директории пользователя:
 ```
-docker pull mediawiki
+cd /home/student
 ```
-Создаём контейнер:
-```
-docker run --name MEDIAWIKI -p 8080:80 -d mediawiki
-```
-> "--name" - имя контейнера  
-> "-p" - порт  
-> "-d" - фоновый запуск  
-
-Переходим по адресу `http://<ip-сервера>:8080`
-
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/eabede45-93c2-4afd-bb0e-8ebd1356c922)
-
-
-Создание `wiki.yml`:
+Создаём файл wiki.yml:
 ```
 touch wiki.yml
 ```
-https://runebook.dev/ru/docs/mariadb/installing-and-using-mariadb-via-docker/index  
-https://russianblogs.com/article/28191194711/  
+Привести к следующему виду:
+```yml
+version: '3'
+services:
+  mediawiki:
+    image: mediawiki
+    restart: always
+    ports:
+      - 8080:80
+    links:
+      - database
+    container_name: wiki
+    volumes:
+      - images:/var/www/html/images
+# Сначала устанавливаем вручную до конца, потом убираем комментарий
+#      - ./LocalSettings.php:/var/www/html/LocalSettings.php
+  database:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: mediawiki
+      MYSQL_USER: wiki
+      MYSQL_PASSWORD: DEP@ssw0rd
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      TZ: Asia/Yekaterinburg
+    volumes:
+      - db:/var/lib/mysql
+volumes:
+  images:
+  db:
+```
+Запускаем контейнеры:
+```
+docker-compose -f wiki.yml up -d
+```
+Если всё правильно переходим по `localhost:8080` и должно появиться - 'Please set up the wiki first'  
+Настройка базы данных  
+Для того, чтобы узнать хост базы данных:
+```
+docker exec -it mariadb bash
+```
+```
+hostname -i
+```
+Вывод
+```
+172.18.0.2
+```
+Заполняем таблицу основываясь на wiki.yml файле и полученном хосте  
+Потом создаём Админа  
+После этого должен скачаться LocalSettings.php  
+Копируем:
+```
+cp /home/user/Downloads/LocalSettings.php /home/student/
+```
+Снимаем комментарий ./LocalSettings.php:/var/www/html/LocalSettings.php в wiki.yml  
+Перезапускаем контейнеры:
+```
+docker-compose -f wiki.yml up -d
+```
+Mediawiki успешно установлена
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/972a864d-cb67-4395-9ca8-f83d4bcead94)
 
 
 
