@@ -1190,7 +1190,7 @@ a. Установите Docker и Docker Compose.
 b. Создайте в домашней директории пользователя файл wiki.yml для приложения MediaWiki:  
         i. Средствами docker compose должен создаваться стек контейнеров с приложением MediaWiki и базой данных  
         ii. Используйте два сервиса;  
-        iii. Основной контейнер MediaWiki должен называться wiki и использовать образmediawiki;  
+        iii. Основной контейнер MediaWiki должен называться wiki и использовать образ mediawiki;  
         iv. Файл LocalSettings.php с корректными настройками должен находиться в домашней папке пользователя и автоматически монтироваться в образ;  
         v. Контейнер с базой данных должен называться db и использовать образ mysql;  
         vi. Он должен создавать базу с названием mediawiki, доступную по стандартному порту, для пользователя wiki с паролем DEP@ssw0rd;  
@@ -1199,7 +1199,7 @@ MediaWiki должна быть доступна извне через порт 
 
 Установка Docker и Docker-compose:
 ```
-apt-get install -y docker-engine
+apt-get update && apt-get install -y docker-engine
 apt-get install -y docker-compose
 ```
 Автозагрузка `Docker`:
@@ -1233,3 +1233,17 @@ touch wiki.yml
 ```
 https://runebook.dev/ru/docs/mariadb/installing-and-using-mariadb-via-docker/index  
 https://russianblogs.com/article/28191194711/  
+
+
+
+***
+
+Создание контейнера с БД с пробросом порта:
+```
+docker run -d --name db --env MARIADB_USER=wiki --env MARIADB_PASSWORD=DEP@ssw0rd -env MARIADB_ROOT_PASSWORD=P@ssw0rd -p 3306:3306 mariadb:latest
+```
+Контейнер phpmyadmin:
+```
+docker run --name phpmyadmin -d --link db:db -p 8081:80 phpmyadmin
+```
+Подключение к базе данных по адресу 192.168.0.2:8081
