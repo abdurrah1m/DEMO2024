@@ -1434,24 +1434,26 @@ echo "DEVICE partitions" > /etc/mdadm/mdadm.conf
 /sbin/mkfs.ext4 /dev/md0
 ```
 
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/606b0728-28e9-43c5-94f7-696034642e98)
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/a8a5df4f-0c51-42c1-8685-f07e8ead8d6d)
+
 
 Автозагрузка раздела с помощью `fstab`. Смотрим идентификатор раздела:
 ```
 /sbin/blkid | grep /dev/md0
 ```
 
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/78b61509-38bd-4e74-8bf7-263b342158d7)
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/d2af9018-f835-413c-a8ed-63b46bc158f9)
 
 Открываем `fstab` и добавляем строку:
 ```
 nano /etc/fstab
 ```
 
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/d24809e4-d58c-419e-8004-cb8729211e7c)
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/3008389a-adb6-4d97-926d-3ffcef2789e2)
 
 > в данном случае массив примонтирован в каталог `/mnt`
 
 Выполняем монтирование и проверяем
 
-![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/397a9392-8234-4e21-ba14-4b168acea47b)
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/24a81b1a-000e-4e13-8959-c09d0f4835d6)
+
