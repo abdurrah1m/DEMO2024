@@ -1282,6 +1282,52 @@ f. Отключите пустые пароли;
 g. Установите предел времени аутентификации до 5 минут;  
 h. Установите авторизацию по сертификату выданным HQ-SRV.  
 
+HQ-SRV  
+Генерация пары ключей:
+```
+ssh-keygen -t rsa -b 2048 -f alt_key
+```
+```
+mv alt_key* .ssh/
+```
+Создаём `config` для подключений:
+```
+nano .ssh/config
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/f8bd713e-e800-49de-95dd-79e3ef2c7cef)
+
+```
+chmod 600 .ssh/config
+```
+Копируем публичные ключи на сервера HQ-R,BR-R,BR-SRV:
+```
+ssh-copy-id -i .ssh/alt_key.pub student@192.168.0.1
+```
+```
+ssh-copy-id -i .ssh/alt_key.pub student@192.168.100.1
+```
+```
+ssh-copy-id -i .ssh/alt_key.pub student@192.168.100.2
+```
+Все действия по порядку, начиная с создания пары ключей выполнить на HQ-R,BR-R,BR-SRV 
+
+На HQ-R,HQ-SRV,BR-R,BR-SRV в файле `/etc/openssh/sshd_config`:
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/3e8f2e11-3533-464b-8e0f-f195ec2ff740)
+
+Перезапускаем `sshd`:
+```
+systemctl restart sshd
+```
+Подключаемся:
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/97e4ec18-dcb3-4027-b805-15afa27b2ecd)
+
+Чтобы при подключении не прописывать порт, пропишите в `.ssh/config`:
+```
+Port 2222
+```
 ***
 
 # Модуль 3 задание 4
