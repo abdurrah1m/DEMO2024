@@ -1330,12 +1330,45 @@ Port 2222
 ```
 ***
 
-# Модуль 3 задание 4
+# Модуль 3 задание 4 (переделать)
 
 Реализуйте антивирусную защиту по средствам ClamAV на устройствах HQ-SRV и BR-SRV:  
 a. Настройте сканирование системы раз в сутки с сохранением отчёта  
 i. Учтите, что сканирование должно проводится при условии, что от пользователей нет нагрузки  
 
+Установка clamav:
+```
+apt-get update && apt-get install clamav
+```
+Автозагрузка:
+```
+systemctl enable --now clamav-daemon.service
+```
+```
+nano /usr/local/sbin/clam_all.sh
+```
+```
+#!/bin/bash
+SCAN_DIR="/"
+LOG_FILE="/var/log/clamav/manual_clamscan.log"
+/usr/bin/clamscan -i -r $SCAN_DIR >> $LOG_FILE
+```
+Разрешение на запуск скрипта:
+```
+chmod +x /usr/local/sbin/clam_www_scan.sh
+```
+Создаем файл лога:
+```
+touch /var/log/clamav/manual_clamscan.log
+```
+Запуск по расписанию:
+```
+EDITOR=nano crontab -e
+```
+Каждый день в час ночи запускать сканирование:
+```
+1 1 * * * /usr/local/sbin/clam_all.sh > /dev/null
+```
 ***
 
 # Модуль 3 задание 5
@@ -1348,6 +1381,7 @@ d. Разрешите работу протокола SSH (Secure Shell) (SSH и
 e. Запретите все прочие подключения.  
 f. Все другие подключения должны быть запрещены для обеспечения безопасности сети.  
 
+Что разрешить bacula, bacula-client, dns, http, https, imap, ipsec, kerberos, 
 ***
 
 # Модуль 3 задание 6
