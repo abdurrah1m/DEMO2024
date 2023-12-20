@@ -12,24 +12,24 @@ iptables https://www.dmosk.ru/instruktions.php?object=iptables-settings
 dns https://habr.com/ru/articles/713156/  
 dns bind https://timeweb.cloud/tutorials/ubuntu/nastrojka-dns-servera-bind  
 
-# NANO
-<kbd>ALT</kbd> + <kbd>/</kbd> Перейти в конец файла  
-<kbd>CTRL</kbd> + <kbd>SHIFT</kbd> Скопировать  
-<kbd>CTRL</kbd> + <kbd>U</kbd> Вставить  
-<kbd>CTRL</kbd> + <kbd>K</kbd> Вырезать  
+# Модуль 1 задание 1
 
-# №1 Сеть на подсети
+Выполните базовую настройку всех устройств:  
+a. Присвоить имена в соответствии с топологией  
+b. Рассчитайте IP-адресацию IPv4 и IPv6. Необходимо заполнить таблицу №1, чтобы эксперты могли проверить ваше рабочее место.  
+c. Пул адресов для сети офиса BRANCH - не более 16  
+d. Пул адресов для сети офиса HQ - не более 64  
 
 |Имя устройства |Интерфейс |Ip-адрес |Маска/Префикс |Шлюз |
 |:-:|:-:|:-:|:-:|:-:|
-|ISP|ens18|10.10.201.100|/24 255.255.255.0|10.10.201.254|
-||ens19|192.168.0.165|/30 255.255.255.252|              |
-||ens20|192.168.0.161|/30 255.255.255.252||
-|BR-R|ens18|192.168.0.129|/27 255.255.255.224||
-||ens19|192.168.0.162|/30 255.255.255.252|192.168.0.161|
-|HQ-R|ens18|192.168.0.1|/25 255.255.255.128||
-||ens19|192.168.0.166|/30 255.255.255.252|192.168.0.165|
-|BR-SRV|ens18|192.168.0.130|/27 255.255.255.224|192.168.0.129|
+|ISP|ens18|10.10.201.174|/24 255.255.255.0|10.10.201.254|
+||ens19|11.11.11.1|/30 255.255.255.252|              |
+||ens20|22.22.22.1|/30 255.255.255.252||
+|BR-R|ens18|22.22.22.2|/30 255.255.255.252|22.22.22.1|
+||ens19|192.168.100.1|/27 255.255.255.224||
+|HQ-R|ens18|11.11.11.2|/30 255.255.255.252|11.11.11.1|
+||ens19|192.168.0.1|/25 255.255.255.128||
+|BR-SRV|ens18|192.168.100.2|/27 255.255.255.224|192.168.100.1|
 |HQ-SRV|ens18|192.168.0.2|/25 255.255.255.128|192.168.0.1|
 
 Настройка зеркал во всех машинах `nano /etc/apt/sources.list`
@@ -44,69 +44,53 @@ HQ-SRV:
 ```
 auto ens18
 iface ens18 inet static
-address 192.168.0.20
+address 192.168.0.2/25
 gateway 192.168.0.1
-netmask 255.255.255.128
 ```
 BR-SRV:
 ```
 auto ens18
 iface ens18 inet static
-address 192.168.0.140
-gateway 192.168.0.129
-netmask 255.255.255.192
+address 192.168.100.2/27
+gateway 192.168.100.1
 ```
 HQ-R:
 ```
 auto ens18
 iface ens18 inet static
-address 192.168.0.1
-netmask 255.255.255.128
-
+address 11.11.11.2/30
+gateway 11.11.11.1
 auto ens19
 iface ens19 inet static
-address 192.168.0.166
-gateway 192.168.0.165
-netmask 255.255.255.252
+address 192.168.0.1/25
 ```
 BR-R:
 ```
 auto ens18
 iface ens18 inet static
-address 192.168.0.129
-netmask 255.255.255.192
-
+address 22.22.22.2/30
+gateway 22.22.22.1
 auto ens19
 iface ens19 inet static
-address 192.168.0.162
-gateway 192.168.0.161
-netmask 255.255.255.252
+address 192.168.100.1/27
 ```
 ISP:
 ```
 auto ens18
 iface ens18 inet static
-address 10.10.201.100
+address 10.10.201.174/24
 gateway 10.10.201.254
-netmask 255.255.255.0
-
 auto ens19
 iface ens19 inet static
-address 192.168.0.165
-netmask 255.255.255.252
-
+address 11.11.11.1/30
 auto ens20
 iface ens20 inet static
-address 192.168.0.161
-netmask 255.255.255.252
+address 22.22.22.1/30
 ```
 ```
 systemctl restart networking.service
 ```
 # NAT на ISP, HQ-R,BR-R
-```
-apt install iptables
-```
 ```
 nano /etc/sysctl.conf
 ```
@@ -116,24 +100,9 @@ net.ipv4.ip_forward=1
 ```
 sysctl -p
 ```
-```
-iptables -A POSTROUTING -t nat -j MASQUERADE
-```
-```
-nano /etc/network/if-pre-up.d/nat
-```
-```
-#!/bin/sh
-/sbin/iptables -A POSTROUTING -t nat -j MASQUERADE
-```
-```
-chmod +x /etc/network/if-pre-up.d/nat
-```
-dhcp debian https://setiwik.ru/kak-nastroit-dhcp-server-v-debian-11/?ysclid=lo4mpr8jcj791182994  
-
 Отключить NetworkManager:
 ```
-systemctl disable network.service NetworkManager
+systemctl disable NetworkManager
 ```
 Установка firewalld:
 ```
@@ -141,11 +110,11 @@ apt-get update && apt-get -y install firewalld && systemctl enable --now firewal
 ```
 Правила к исходящим пакетам:
 ```
-firewall-cmd --permanent --zone=public --add-interface=ens33
+firewall-cmd --permanent --zone=public --add-interface=ens18
 ```
 Правила к входящим пакетам:
 ```
-firewall-cmd --permanent --zone=trusted --add-interface=ens34
+firewall-cmd --permanent --zone=trusted --add-interface=ens19
 ```
 Включение NAT:
 ```
@@ -156,7 +125,14 @@ firewall-cmd --permanent --zone=public --add-masquerade
 firewall-cmd --reload
 ```
 
-# №1.2 FRR OSPF(ISP,HQ-R,BR-R)
+***
+
+# Модуль 1 задание 2
+
+Настройте внутреннюю динамическую маршрутизацию по средствам FRR. Выберите и обоснуйте выбор протокола динамической маршрутизации из расчёта, что в дальнейшем сеть будет масштабироваться.  
+a. Составьте топологию сети L3.  
+
+
 Установка frr
 ```
 apt update
@@ -194,8 +170,10 @@ sh ip ospf neighbor
 
 С HQ-SRV ДО BR-SRV `ping 192.168.0.130`  
 
+# Модуль 1 задание 3
 
-# №1.3 DHCP SERVER на HQ-R
+Настройте автоматическое распределение IP-адресов на роутере HQ-R.
+a. Учтите, что у сервера должен быть зарезервирован адрес. 
 
 Установка DHCP
 ```
@@ -228,13 +206,18 @@ option routers 192.168.0.1;
 ```
 systemctl restart isc-dhcp-server.service
 ```
-# №1.4 Создание пользователей  
-Настроить
+
+***
+
+# Модуль 1 задание 4
+
+Настройте локальные учётные записи на всех устройствах в соответствии с таблицей.
+
 |Учётная запись|Пароль|Примечание|
 |:-:|:-:|:-:|
-|Admin|P@ssw0rd|CLI, HQ-SRV|
+|Admin|P@ssw0rd|CLI, HQ-SRV, HQ-R|
 |Branch admin|P@ssw0rd|BR-SRV, BR-R|
-|Network admin|P@ssw0rd|HQ-R, BR-R, HQ-SRV|
+|Network admin|P@ssw0rd|HQ-R, BR-R, BR-SRV|
 
 Пользователь `admin` на `HQ-SRV`
 ```
@@ -252,7 +235,10 @@ getent group sudo
 sudo:x:27:admin
 ```
 
-# №1.5 iperf3
+# Модуль 1 задание 5
+
+Измерьте пропускную способность сети между двумя узлами HQ-R-ISP по средствам утилиты iperf 3. Предоставьте описание пропускной способности канала со скриншотами.  
+
 HQ-R И ISP `apt install iperf3`  
 ISP `iperf3 -s -p 6869`  
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/21d9e3c2-8d73-4b69-8615-5d2fb2a2b3b1)
