@@ -1258,8 +1258,53 @@ Mediawiki успешно установлена
 1. Реализуйте мониторинг по средствам rsyslog на всех Linux хостах.  
 a. Составьте отчёт о том, как работает мониторинг  
 
+#### Настройка сервера, который принимает логи
 
+Установка `rsyslog`:
+```
+apt-get install rsyslog-classic
+```
+Автозагрузка:
+```
+systemctl enable --now rsyslog
+```
+Конфиг `/etc/rsyslog.d/00_common.conf`:
+```
+module(load="imudp")
+input(type="imudp" port="514")
+module(load="imtcp")
+input(type="imtcp" port="514")
+```
+`/etc/rsyslog.d/myrules.conf`:
+```
+$template RemoteLogs,"/var/log/rsyslog/%HOSTNAME%/%PROGRAMNAME%.log"
+*.* ?RemoteLogs
+& ~
+```
+> Название шаблона `RemoteLogs`, который принимает логи всех категорий; логи будут сохраняться в каталоге `/var/log/rsyslog/<имя компьютера, откуда пришел лог>/<приложение, чей лог пришел>.log`; конструкция `& ~` прекращает дальнейшую обработку логов
 
+Перезапускаем службу логов:
+```
+systemctl restart rsyslog
+```
+
+#### Настройка клиентов
+
+Установка пакета:
+```
+apt-get install -y rsyslog-classic
+```
+Автозагрузка:
+```
+systemctl enable --now rsyslog
+```
+Добавляем в `/etc/rsyslog.d/all.conf`:
+```
+*.* @@192.168.0.2:514
+```
+> Отправлять все логи всех важностей по tcp на сервак
+
+В файле `/etc/rsyslog.d/20_extrasockets.conf` закомментировать всё
 ***
 
 # Модуль 3 задание 2
