@@ -90,6 +90,8 @@ address 22.22.22.1/30
 ```
 systemctl restart networking.service
 ```
+
+
 # NAT на ISP, HQ-R,BR-R
 ```
 nano /etc/sysctl.conf
