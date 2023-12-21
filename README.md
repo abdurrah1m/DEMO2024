@@ -1313,6 +1313,64 @@ systemctl enable --now rsyslog
 a. Выдайте сертификаты для SSH;  
 b. Выдайте сертификаты для веб серверов.  
 
+Создадим директорию которую будем использовать как корневую:
+```
+mkdir /ca
+```
+Найдём путь, где расположен конфиг:
+```
+openssl ca
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/73f5da07-8ebb-4bba-8dbe-9fbfa902a8fb)
+
+Сделаем бэкап конфига:
+```
+cp /var/lib/ssl/openssl.{cnf,cnf.backup}
+```
+Редактируем конфиг `/var/lib/ssl/openssl.conf`
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/8f413992-3aad-443c-811f-9179e7555bc8)
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/efbbe338-48e7-4bfc-a123-8818a569c3c3)
+
+```
+cd /ca
+mkdir certs newcerts crl private
+touch index.txt
+echo -n '00' > serial
+```
+```
+policy = policy_anything
+commonName = supplied
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/27805547-5609-43be-802d-002ddf17853c)
+
+```
+countryName_default = RU
+0.organizationName_default = hq.work
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/16b807c3-f27a-4bf4-9293-b75f76a5e905)
+
+```
+[ v3_ca]
+...
+basicConstraints = CA:true
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/850c3aca-bf8d-4329-afbe-3e5b03591ca7)
+
+Генерируем ключ:
+```
+openssl req -nodes -new -out cacert.csr -keyout private/cakey.pem -extensions v3_ca
+```
+
+![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/b4f31d16-2fef-4b08-95b7-0fab4fea3f96)
+
+> `.` значит пустой
+
 ***
 
 # Модуль 3 задание 3
@@ -1426,7 +1484,35 @@ d. Разрешите работу протокола SSH (Secure Shell) (SSH и
 e. Запретите все прочие подключения.  
 f. Все другие подключения должны быть запрещены для обеспечения безопасности сети.  
 
-Что разрешить: bacula, bacula-client, dns, http, https, imap, ipsec, kerberos, 
+Что разрешить: bacula, bacula-client, dns, http, https, imap, ipsec, kerberos  
+Разрешаем порты:
+```
+firewall-cmd --permanent --zone=public --add-port=53/{tcp,udp}
+firewall-cmd --permanent --zone=trusted --add-port=53/{tcp,udp}
+```
+```
+firewall-cmd --permanent --zone=public --add-port=80/{tcp,udp}
+firewall-cmd --permanent --zone=trusted --add-port=80/{tcp,udp}
+```
+```
+firewall-cmd --permanent --zone=public --add-port=443/{tcp,udp}
+firewall-cmd --permanent --zone=trusted --add-port=443/{tcp,udp}
+```
+```
+firewall-cmd --permanent --zone=public --add-port=22/tcp
+firewall-cmd --permanent --zone=trusted --add-port=22/tcp
+```
+Разрешаем протоколы
+```
+firewall-cmd --permanent --zone=public --add-protocol={icmp,gre,ospf}
+firewall-cmd --permanent --zone=trusted --add-protocol={icmp,gre,ospf}
+```
+Разрешаем сервисы:
+```
+firewall-cmd --permanent --zone=public --add-service={ssh,ipsec,ntp}
+firewall-cmd --permanent --zone=trusted --add-service={ssh,ipsec,ntp}
+```
+
 ***
 
 # Модуль 3 задание 6
