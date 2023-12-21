@@ -92,9 +92,6 @@ systemctl enable --now frr
 sed -i 's/ospfd=no/ospfd=yes/g' /etc/frr/daemons
 ```
 ```
-ospfd=yes
-```
-```
 systemctl restart frr
 ```
 Вход в среду роутера:
