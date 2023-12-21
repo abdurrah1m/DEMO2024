@@ -1511,7 +1511,10 @@ firewall-cmd --permanent --zone=trusted --add-protocol={icmp,gre,ospf}
 firewall-cmd --permanent --zone=public --add-service={ssh,ipsec,ntp}
 firewall-cmd --permanent --zone=trusted --add-service={ssh,ipsec,ntp}
 ```
-
+Блокируем остальные подключения и всё ненужное:
+```
+firewall-cmd --permanent --direct --add-rule ipv4 filter FORWARD 0 -i ens33 -o ens34 -j DROP
+```
 ***
 
 # Модуль 3 задание 6
