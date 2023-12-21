@@ -1484,7 +1484,6 @@ d. Разрешите работу протокола SSH (Secure Shell) (SSH и
 e. Запретите все прочие подключения.  
 f. Все другие подключения должны быть запрещены для обеспечения безопасности сети.  
 
-Что разрешить: bacula, bacula-client, dns, http, https, imap, ipsec, kerberos  
 Разрешаем порты:
 ```
 firewall-cmd --permanent --zone=public --add-port=53/{tcp,udp}
