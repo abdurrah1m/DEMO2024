@@ -1,0 +1,48 @@
+---
+- name: NAT
+  hosts: ISP
+  become: true
+
+  vars:
+    external_int: 'ens18'
+    internal_int1: 'ens19'
+    internal_int2: 'ens20'
+    external_zone: 'public'
+    internal_zone: 'trusted'
+  tasks:
+    - name: ip forwarding
+      sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        sysctl_set: true
+        state: present
+        reload: true
+    - name: apt-update
+      shell:
+        cmd: apt-get update
+    - name: install firewalld
+      shell:
+        cmd: apt-get install firewalld -y
+    - name: enable firewalld
+      service:
+        name: firewalld
+        state: started
+        enabled: true
+    - name: set zones
+      firewalld:
+        zone: '{{ item.zone }}'
+        interface: '{{ item.interface }}'
+        permanent: true
+        state: enabled
+        immediate: yes
+      loop:
+        - { zone: '{{ external_zone }}', interface: '{{ external_int }}' }
+        - { zone: '{{ internal_zone }}', interface: '{{ internal_int1 }}' }
+        - { zone: '{{ internal_zone }}', interface: '{{ internal_int2 }}' }
+    - name: 'Turn on masquerade on {{ external_zone }}'
+      firewalld:
+        zone: '{{ external_zone }}'
+        masquerade: 'yes'
+        permanent: true
+        state: enabled
+        immediate: true
