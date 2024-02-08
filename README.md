@@ -26,6 +26,7 @@ https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/index.html
 |HQ-SRV|ens18|192.168.0.2|/25 255.255.255.128|192.168.0.1|2000:100::1/122|HQ|
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/3412d3b9-7b67-4fc1-8cc9-9b0ac66ff7dc)
+
 Присвоение имён:
 ```
 hostnamectl set-hostname <name>;exec bash
