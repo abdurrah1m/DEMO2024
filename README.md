@@ -12,6 +12,9 @@ https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/index.html
 &ensp; c. Пул адресов для сети офиса BRANCH - не более 16  
 &ensp; d. Пул адресов для сети офиса HQ - не более 64  
 
+<details>
+  <summary>ТЫКНИ</summary>
+
 | Имя устройства | Интерфейс | Ip-адрес | Маска/Префикс | Шлюз | IPv6 | NIC |
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |ISP|ens18|10.10.201.191|/24 255.255.255.0|10.10.201.254| - | INTERNET |
@@ -76,10 +79,15 @@ systemctl restart network.service
 
 ***
 
+</details>
+
 # Модуль 1 задание 2
 
 Настройте внутреннюю динамическую маршрутизацию по средствам FRR. Выберите и обоснуйте выбор протокола динамической маршрутизации из расчёта, что в дальнейшем сеть будет масштабироваться.  
-a. Составьте топологию сети L3.  
+&ensp; a. Составьте топологию сети L3.  
+
+<details>
+  <summary>ТЫКНИ</summary>
 
 Установка пакета:
 ```
@@ -129,6 +137,11 @@ do w
 ```
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/a39631c1-a683-47d2-a63a-4bbb93d7556a)
+
+</details>
+
+<details>
+  <summary>NAT_1</summary>
 
 # NAT и открывание портов с помощью firewalld ISP,HQ-R,BR-R:
 
@@ -196,6 +209,11 @@ firewall-cmd --permanent --zone=trusted --add-port=89/udp
 
 ***
 
+</details>
+
+<details>
+  <summary>NAT_2</summary>
+
 # NAT 2 способ ISP,HQ-R,BR-R:
 Включаем пересылку пакетов:
 ```
@@ -225,6 +243,12 @@ chmod +x /etc/net/scripts/nat
 ```
 systemctl enable --now iptables
 ```
+
+</details>
+
+<details>
+  <summary>NAT_3</summary>
+
 # NAT 3 способ ISP,HQ-R,BR-R:
 iptables (предполагается, что внешний интерфейс носит имя enp1s0):
 ```
@@ -239,7 +263,14 @@ iptables -A FORWARD -i wlp3s2 -o enp1s0 -j ACCEPT
 ```
 iptables-save > /etc/sysconfig/iptables
 ```
+
+</details>
+
+<details>
+  <summary>NAT_4</summary>
+
 # NAT 4 способ HQ-R,BR-R
+
 nftables
 ```
 apt-get update && apt-get -y install nftables
@@ -268,12 +299,15 @@ nft list ruleset >> /etc/nftables/nftables.nft
 systemctl restart nftables
 ```
 
-***
+</details>
 
 # Модуль 1 задание 3
 
 Настройте автоматическое распределение IP-адресов на роутере HQ-R.  
-a. Учтите, что у сервера должен быть зарезервирован адрес.
+&ensp; a. Учтите, что у сервера должен быть зарезервирован адрес.
+
+<details>
+  <summary>КЛИКНИ</summary>
 
 Установка пакета:
 ```
@@ -339,6 +373,8 @@ ens18:
 
 ***
 
+</details>
+
 # Модуль 1 задание 4
 Настройте локальные учётные записи на всех устройствах в соответствии с таблицей.
 
@@ -347,6 +383,9 @@ ens18:
 |Admin|P@ssw0rd|CLI, HQ-SRV, HQ-R|
 |Branch admin|P@ssw0rd|BR-SRV, BR-R|
 |Network admin|P@ssw0rd|HQ-R, BR-R, HQ-SRV|
+
+<details>
+  <summary>КЛИКНИ</summary>
 
 Пользователь `admin` на `HQ-SRV`
 ```
@@ -361,11 +400,14 @@ P@ssw0rd
 P@ssw0rd
 ```
 
-***
+</details>
 
 # Модуль 1 задание 5
 
 Измерьте пропускную способность сети между двумя узлами HQ-R-ISP по средствам утилиты iperf 3. Предоставьте описание пропускной способности канала со скриншотами.
+
+<details>
+  <summary>КЛИКНИ</summary>
 
 ```
 apt-get -y install iperf3
@@ -389,11 +431,15 @@ iperf3 -c 192.168.0.161 -f M
 [ 5] 3.00-4.00 sec 341 MBytes 341 MBytes/sec    0 749 KBytes
 ```
 
-***
+</details>
 
 # Модуль 1 задание 6
 
 Составьте backup скрипты для сохранения конфигурации сетевых устройств, а именно HQ-R BR-R. Продемонстрируйте их работу.
+
+<details>
+  <summary>КЛИКНИ</summary>
+
 Создаём папку для бэкапа:
 ```
 mkdir /etc/networkbackup
@@ -412,6 +458,12 @@ ls /etc/networkbackup
 ```
 frr.conf
 ```
+
+</details>
+
+<details>
+  <summary>UrBackup</summary>
+
 # №1.6 UrBackup BR-R,HQ-R
 UrBackup - система резервного копирования типа "клиент-сервер"  
 ISP выступает в роли сервера:
@@ -456,11 +508,14 @@ systemctl enable --now urbackup-client
 
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/dc59516b-0280-4012-a19e-7b2e8a2c2ab5)
 
-***
+</details>
 
 # Модуль 1 задание 7
 
 Настройте подключение по SSH для удалённого конфигурирования устройства HQ-SRV по порту 2222. Учтите, что вам необходимо перенаправить трафик на этот порт по средствам контролирования трафика.
+
+<details>
+  <summary>КЛИКНИ</summary>
 
 HQ-SRV:
 ```
@@ -482,11 +537,14 @@ PasswordAuthentication yes
 ssh student@192.168.0.40 -p 2222
 ```
 
-***
+</details>
 
 # Модуль 1 задание 8
 
 Настройте контроль доступа до HQ-SRV по SSH со всех устройств, кроме CLI.
+
+<details>
+  <summary>КЛИКНИ</summary>
 
 HQ-SRV:
 ```
@@ -497,15 +555,15 @@ nano /etc/openssh/sshd_config
 AllowUsers student@192.168.0.1 student@192.168.0.140 student@192.168.0.129 student@10.10.201.174
 ```
 
-***
+</details>
 
 # Модуль 2 задание 2
 
 Настройте синхронизацию времени между сетевыми устройствами по протоколу NTP.  
-a. В качестве сервера должен выступать роутер HQ-R со стратумом 5  
-b. Используйте Loopback интерфейс на HQ-R, как источник сервера времени  
-c. Все остальные устройства и сервера должны синхронизировать свое время с роутером HQ-R  
-d. Все устройства и сервера настроены на московский часовой пояс (UTC +3)  
+&ensp; a. В качестве сервера должен выступать роутер HQ-R со стратумом 5  
+&ensp; b. Используйте Loopback интерфейс на HQ-R, как источник сервера времени  
+&ensp; c. Все остальные устройства и сервера должны синхронизировать свое время с роутером HQ-R  
+&ensp; d. Все устройства и сервера настроены на московский часовой пояс (UTC +3)  
 
 Переставить часовой пояс на всех машинах:
 ```
