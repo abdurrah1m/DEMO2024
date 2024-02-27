@@ -1,6 +1,11 @@
 https://sysahelper.gitbook.io/sysahelper/main/complex_works/main/demo2024  
 https://docs.altlinux.org/ru-RU/domain/10.2/html/samba/index.html  
 
+Astra Linux https://dl.astralinux.ru/astra/stable/2.12_x86-64/iso/  
+RedOS https://redos.red-soft.ru/product/downloads/  
+alt server https://www.basealt.ru/alt-server/download  
+alt workstation https://www.basealt.ru/alt-workstation/download  
+
 # Все действия выполняются на ALTSERVER И ALTSTATION 10.1
 
 ***
