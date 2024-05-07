@@ -1,4 +1,4 @@
-# Эту страницу открыли столько раз:
+# Эту репу открыли столько раз:
 <img src="https://profile-counter.glitch.me/abdurrah1m/count.svg" />
 
 # На кофе:
