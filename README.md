@@ -47,8 +47,21 @@ alt workstation https://www.basealt.ru/alt-workstation/download
 ![image](https://github.com/abdurrah1m/DEMO2024/assets/148451230/3412d3b9-7b67-4fc1-8cc9-9b0ac66ff7dc)
 
 Присвоение имён:
+## HQ-R
 ```
-hostnamectl set-hostname <name>;exec bash
+hostnamectl set-hostname hq-r.hq.work;exec bash
+```
+## BR-R
+```
+hostnamectl set-hostname br-r.branch.work;exec bash
+```
+## HQ-SRV
+```
+hostnamectl set-hostname hq-srv.hq.work;exec bash
+```
+## BR-SRV
+```
+hostnamectl set-hostname br-srv.branch.work;exec bash
 ```
 
 ## HQ-SRV
@@ -58,7 +71,7 @@ ip -с a
 ```
 Настройка ip-адреса:  
 ```
-echo 192.168.0.40/25 > /etc/net/ifaces/ens18/ipv4address
+echo 192.168.0.2/25 > /etc/net/ifaces/ens18/ipv4address
 ```
 Настройка шлюза по умолчанию: 
 ```
@@ -71,7 +84,7 @@ nano /etc/net/ifaces/ens18/options
 ```
 BOOTPROTO=static
 TYPE=eth
-NM_CONTROLLED=yes
+NM_CONTROLLED=no
 DISABLED=no
 CONFIG_IPV4=yes
 CONFIG_IPV6=yes
