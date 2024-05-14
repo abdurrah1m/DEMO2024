@@ -363,6 +363,11 @@ subnet 192.168.0.0 netmask 255.255.255.128 {
         default-lease-time 21600;
         max-lease-time 43200;
 }
+host HQ-SRV
+    {
+    hardware ethernet 00:50:56:b6:89:75;
+    fixed-address 192.168.0.5;
+    }
 ```
 ```
 systemctl restart dhcpd
